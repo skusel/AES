@@ -78,7 +78,7 @@ endif()
 set(AES_SRC
   src/aes.cpp
   src/aesblock.cpp
-  src/KeySchedule.cpp
+  src/aeskeysched.cpp
 )
 set(AES_HEADERS
   include/lskuse/aes.h

@@ -1,6 +1,6 @@
 #include "lskuse/aes.h"
 #include "aesblock.h"
-#include "KeySchedule.h"
+#include "aeskeysched.h"
 
 using namespace lskuse;
 
@@ -33,7 +33,7 @@ std::string AES::encrypt(const std::string& plaintext, const std::string& key)
 {
   std::string ciphertext;
 
-  KeySchedule keySchedule(m_keyLen, key);
+  AESKeySchedule keySchedule(m_keyLen, key);
   switch(m_mode)
   {
     case Mode::ECB:
@@ -61,7 +61,7 @@ std::string AES::decrypt(const std::string& ciphertext, const std::string& key)
 {
   std::string plaintext;
 
-  KeySchedule keySchedule(m_keyLen, key);
+  AESKeySchedule keySchedule(m_keyLen, key);
   switch(m_mode)
   {
     case Mode::ECB:
