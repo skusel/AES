@@ -11,7 +11,9 @@ project(AES VERSION 1.0)
 message(STATUS "CMake Version: ${CMAKE_VERSION}, System: ${CMAKE_SYSTEM}")
 message(STATUS "CC - Compiler: ${CMAKE_C_COMPILER_ID}, Version: ${CMAKE_C_COMPILER_VERSION}")
 message(STATUS "CXX - Compiler: ${CMAKE_CXX_COMPILER_ID}, Version: ${CMAKE_CXX_COMPILER_VERSION}")
-message(STATUS "Using ${CMAKE_BUILD_TYPE} build type")
+if(${CMAKE_BUILD_TYPE})
+  message(STATUS "Using ${CMAKE_BUILD_TYPE} build type")
+endif()
 
 ###############################################################################
 # use C++17 standard
@@ -54,7 +56,7 @@ set(AES_TARGET_NAME ${PROJECT_NAME})
 set(AES_EXPORT_NAME ${AES_TARGET_NAME}Targets)
 set(AES_BIN_INSTALL_DIR ${CMAKE_INSTALL_BINDIR})
 set(AES_LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
-set(AES_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/AES)
+set(AES_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
 
 ###############################################################################
 # fetch thirdparty dependencies
@@ -67,23 +69,22 @@ if(AES_BUILD_TESTING)
     GIT_REPOSITORY https://github.com/google/googletest.git
     GIT_TAG e2239ee6043f73722e7aa812a459f54a28552929 # version 1.11.0
   )
-  FetchContent_MakeAvailable(eigen googletest)
-else()
-  FetchContent_MakeAvailable(eigen)
+  FetchContent_MakeAvailable(googletest)
 endif()
 
 ###############################################################################
 # add library
 ###############################################################################
-#set(AES_SRC
-#  src/aes.cpp
-#)
-#set(AES_HEADERS
-#  include/aes/aes.h
-#)
-#add_library(AES src/aes.cpp)
-#target_link_libraries(AES PRIVATE eigen)
-#target_include_directories(AES PUBLIC include)
+set(AES_SRC
+  src/aes.cpp
+  src/aesblock.cpp
+  src/KeySchedule.cpp
+)
+set(AES_HEADERS
+  include/lskuse/aes.h
+)
+add_library(AES src/aes.cpp)
+target_include_directories(AES PUBLIC include)
 
 ###############################################################################
 # add library tests
@@ -100,16 +101,16 @@ endif()
 ###############################################################################
 # make project installable
 ###############################################################################
-#install(TARGETS ${AES_TARGET_NAME}
-#  EXPORT ${AES_EXPORT_NAME}
-#  RUNTIME DESTINATION ${AES_BIN_INSTALL_DIR}
-#  LIBRARY DESTINATION ${AES_LIB_INSTALL_DIR}
-#  ARCHIVE DESTINATION ${AES_LIB_INSTALL_DIR}
-#  INCLUDES DESTINATION ${AES_INCLUDE_INSTALL_DIR}
-#)
-#foreach(header ${AES_HEADERS})
-#  install(FILES ${header}
-#    DESTINATION ${AES_INCLUDE_INSTALL_DIR}
-#  )
-#endforeach()
+install(TARGETS ${AES_TARGET_NAME}
+  EXPORT ${AES_EXPORT_NAME}
+  RUNTIME DESTINATION ${AES_BIN_INSTALL_DIR}
+  LIBRARY DESTINATION ${AES_LIB_INSTALL_DIR}
+  ARCHIVE DESTINATION ${AES_LIB_INSTALL_DIR}
+  INCLUDES DESTINATION ${AES_INCLUDE_INSTALL_DIR}
+)
+foreach(header ${AES_HEADERS})
+  install(FILES ${header}
+    DESTINATION ${AES_INCLUDE_INSTALL_DIR}/lskuse
+  )
+endforeach()
 
