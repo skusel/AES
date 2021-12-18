@@ -1,43 +1,44 @@
-#include "KeySchedule.h"
+#include "aeskeysched.h"
 #include "sboxes.h"
 
 using namespace lskuse;
 
 /*************************************************************************************************/
-KeySchedule::KeySchedule(AES::KeyLen keyLen, const std::string& key) :
+AESKeySchedule::AESKeySchedule(AES::KeyLen keyLen, const std::string& key, bool isEncrypt) :
   m_keyLen(keyLen),
-  m_key(key)
+  m_key(key),
+  m_isEncrypt(isEncrypt)
 {
   computeKeySchedule()
 }
 
 /*************************************************************************************************/
-char* KeySchedule::getRoundKey(unsigned round)
+char* AESKeySchedule::getRoundKey(unsigned round)
 {
   // TODO: access round key from m_keySchedule vector
   return nullptr;
 }
 
 /*************************************************************************************************/
-void KeySchedule::computeKeySchedule()
+void AESKeySchedule::computeKeySchedule()
 {
   // TODO: compute the key schedule using AES KeySchedule algorithm and the original key
 }
 
 /*************************************************************************************************/
-void KeySchedule::rotWord()
+void AESKeySchedule::rotWord()
 {
   // TODO: implement 32-bit work rotation
 }
 
 /*************************************************************************************************/
-void KeySchedule::subWord()
+void AESKeySchedule::subWord()
 {
   // TODO: implement byte-substition using AESBlock s-boxes
 }
 
 /*************************************************************************************************/
-void KeySchedule::rcon()
+void AESKeySchedule::rcon()
 {
   // TODO: implement round constant
 }

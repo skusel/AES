@@ -2,7 +2,7 @@
 #define LSKUSE_AES_BLOCK_H
 
 #include "lskuse/aes.h"
-#include "KeySchedule.h"
+#include "aeskeysched.h"
 
 #include <cstdint>
 
@@ -11,7 +11,7 @@ namespace lskuse
   class AESBlock
   {
     public:
-      AESBlock(AES::Padding padding, const std::string& data, const KeySchedule& keySchedule);
+      AESBlock(AES::Padding padding, const std::string& data, const AESKeySchedule& keySchedule);
 
       static constexpr inline unsigned sizeInBits() {return BLOCK_SIZE_BITS;}
       static constexpr inline unsigned sizeInBytes() {return BLOCK_SIZE_BYTES;}
@@ -35,10 +35,10 @@ namespace lskuse
       static constexpr const unsigned BLOCK_SIZE_BYTES = BLOCK_SIZE_BITS / 8;
       static constexpr const unsigned STATE_SIZE = BLOCK_SIZE_BYTES + 1;
 
-      AES::Padding m_padding;
-      std::string  m_data;
-      char         m_state[STATE_SIZE] = {};
-      KeySchedule  m_keySchedule;
+      AES::Padding   m_padding;
+      std::string    m_data;
+      char           m_state[STATE_SIZE] = {};
+      AESKeySchedule m_keySchedule;
   };
 }
 
