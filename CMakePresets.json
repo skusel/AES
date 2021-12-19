@@ -1,0 +1,57 @@
+{
+  "version": 3, 
+  "configurePresets": [
+    {
+      "name": "debug", 
+      "displayName": "Debug Config", 
+      "description": "Debug build using the system's default generator",
+      "binaryDir": "${sourceDir}/build/${presetName}", 
+      "cacheVariables": {
+        "AES_ASAN": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "AES_USAN": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "AES_BUILD_TESTING": {
+          "type": "BOOL", 
+          "value": "ON"
+        }, 
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING", 
+          "value": "Debug"
+        }
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release Config",
+      "description": "Release build using the system's default generator", 
+      "binaryDir": "${sourceDir}/build/${presetName}", 
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Release"
+        }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug-build",
+      "configurePreset": "debug"
+    },
+    {
+      "name": "release-build",
+      "configurePreset": "release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "debug-test",
+      "configurePreset": "debug"
+    }
+  ]
+}
