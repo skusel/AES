@@ -38,8 +38,8 @@ namespace lskuse
       std::string decrypt(const std::string& data, const std::string& key);
 
     private:
-      KeyLen  m_keyLen;
       Mode    m_mode;
+      KeyLen  m_keyLen;
       Padding m_padding;
       
       static constexpr const uint8_t RCON[10] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36};

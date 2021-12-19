@@ -4,8 +4,6 @@
 #include "lskuse/aes.h"
 #include "aeskeysched.h"
 
-#include <cstdint>
-
 namespace lskuse
 {
   class AESBlock
