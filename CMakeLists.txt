@@ -8,11 +8,13 @@ project(AES VERSION 1.0)
 ###############################################################################
 # project dev tools info
 ###############################################################################
-message(STATUS "CMake Version: ${CMAKE_VERSION}, System: ${CMAKE_SYSTEM}")
-message(STATUS "CC - Compiler: ${CMAKE_C_COMPILER_ID}, Version: ${CMAKE_C_COMPILER_VERSION}")
-message(STATUS "CXX - Compiler: ${CMAKE_CXX_COMPILER_ID}, Version: ${CMAKE_CXX_COMPILER_VERSION}")
-if(${CMAKE_BUILD_TYPE})
-  message(STATUS "Using ${CMAKE_BUILD_TYPE} build type")
+if(PROJECT_IS_TOP_LEVEL)
+  message(STATUS "CMake Version: ${CMAKE_VERSION}, System: ${CMAKE_SYSTEM}")
+  message(STATUS "CC - Compiler: ${CMAKE_C_COMPILER_ID}, Version: ${CMAKE_C_COMPILER_VERSION}")
+  message(STATUS "CXX - Compiler: ${CMAKE_CXX_COMPILER_ID}, Version: ${CMAKE_CXX_COMPILER_VERSION}")
+  if(NOT ${CMAKE_BUILD_TYPE} STREQUAL "")
+    message(STATUS "Using ${CMAKE_BUILD_TYPE} build type")
+  endif()
 endif()
 
 ###############################################################################
@@ -31,7 +33,7 @@ string(APPEND CMAKE_CXX_FLAGS_DEBUG " -Wall -Wextra -Werror")
 ###############################################################################
 option(AES_ASAN "Turn on address sanitizer" OFF)
 option(AES_USAN "Turn on undefined behavior sanitizer" OFF)
-option(AES_BUILD_TESTING "Build AES tests when BUILD_TESTING is enabled" ${PROJECT_IS_TOP_LEVEL})
+option(AES_BUILD_TESTING "Build AES tests when BUILD_TESTING is enabled" PROJECT_IS_TOP_LEVEL)
 
 ###############################################################################
 # disable/enable sanitizers
