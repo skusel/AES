@@ -1,13 +1,42 @@
 # AES
 Implementation of the AES algorithm.
 
-## Building
-To create the build files from the root of the repository:
+## Building and Testing
+This section assumes you will run the following commands from the root of the repository.
+
+This project comes with CMake presets to configure the build system, build the code, and run tests.
+
+To generate debug build files:
 ```
-cmake -B build -S .
+cmake -S . --preset=debug
 ```
 
-To build the code:
+To generate release build files:
 ```
-cmake --build build/
+cmake -S . --preset=release
+```
+
+To create a debug build:
+```
+camke -S . --preset=debug-build
+```
+
+To create a release build:
+```
+cmake -S . --preset=release-build
+```
+
+To run tests:
+```
+ctest --preset=debug-test
+```
+
+To run tests with verbose output:
+```
+ctest --preset=debug-test -V
+```
+
+To run tests whose name matches a specific regex:
+```
+ctest --preset=debug-test --tests-regex <some regex you want to match>
 ```
