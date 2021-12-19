@@ -8,22 +8,22 @@ This project comes with CMake presets to configure the build system, build the c
 
 To generate debug build files:
 ```
-cmake -S . --preset=debug
+cmake --preset=debug
 ```
 
 To generate release build files:
 ```
-cmake -S . --preset=release
+cmake --preset=release
 ```
 
 To create a debug build:
 ```
-camke -S . --preset=debug-build
+camke --build --preset=debug-build
 ```
 
 To create a release build:
 ```
-cmake -S . --preset=release-build
+cmake --build --preset=release-build
 ```
 
 To run tests:

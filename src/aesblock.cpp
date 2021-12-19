@@ -6,7 +6,7 @@
 using namespace lskuse;
 
 /*************************************************************************************************/
-AESBlock::AESBlock(AES::Padding padding, const std::string& data, const KeySchedule& keySchedule) :
+AESBlock::AESBlock(AES::Padding padding, const std::string& data, const AESKeySchedule& keySchedule) :
   m_padding(padding),
   m_data(data), 
   m_keySchedule(keySchedule)
@@ -34,6 +34,8 @@ std::string AESBlock::decrypt()
 /*************************************************************************************************/
 std::string AESBlock::pad(const std::string& plaintext)
 {
+  if(m_padding == AES::Padding::ISO)
+    return "";
   // TODO: implement padding logic if plaintext is not 16 bytes
   return plaintext;
 }

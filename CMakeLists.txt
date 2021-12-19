@@ -85,20 +85,22 @@ set(AES_SRC
 set(AES_HEADERS
   include/lskuse/aes.h
 )
-add_library(AES src/aes.cpp)
+add_library(AES ${AES_SRC})
 target_include_directories(AES PUBLIC include)
 
 ###############################################################################
 # add library tests
 ###############################################################################
-#if(AES_BUILD_TESTING)
-#  # add google test
-#  add_executable(AESTest tests/aes.cpp)
-#  target_include_directories(AESTest PRIVATE src)
-#  target_link_libraries(AESTest PUBLIC gtest_main AES)
-#  include(GoogleTest)
-#  gtest_discover_tests(AESTest XML_OUTPUT_DIR "${PROJECT_BINARY_DIR}/TestResults")
-#endif()
+if(AES_BUILD_TESTING)
+  message(STATUS "Adding AES tests")
+  include(CTest)
+  # add google test
+  add_executable(AESTests tests/test_aeskeysched.cpp)
+  target_include_directories(AESTests PRIVATE src)
+  target_link_libraries(AESTests PUBLIC gtest_main AES)
+  include(GoogleTest)
+  gtest_discover_tests(AESTests XML_OUTPUT_DIR "${PROJECT_BINARY_DIR}/TestResults")
+endif()
 
 ###############################################################################
 # make project installable
