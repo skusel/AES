@@ -4,6 +4,13 @@
 
 #include <gtest/gtest.h>
 
+/******************************************************************************
+ * Known values taken from...
+ * https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.197.pdf 
+ * Appendix A - Key Expansion Examples
+ * Pages 27-32
+ *****************************************************************************/
+
 namespace lskuse
 {
   namespace AESKeyScheduleTest

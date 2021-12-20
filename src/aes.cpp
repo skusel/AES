@@ -2,6 +2,8 @@
 #include "aesblock.h"
 #include "aeskeysched.h"
 
+#include <fstream>
+
 using namespace lskuse;
 
 /*************************************************************************************************/
@@ -13,74 +15,97 @@ AES::AES(Mode mode, KeyLen keyLen, Padding padding) :
 }
 
 /*************************************************************************************************/
-std::string AES::encrypt(const std::string& plaintext, const std::string& key, 
-                         Mode mode, KeyLen keyLen, Padding padding)
+bool AES::encrypt(Mode mode, KeyLen keyLen, Padding padding, 
+                  const std::filesystem::path& plaintextFile, const std::string& key, 
+                  const std::filesystem::path& ciphertextFile)
 {
   AES aes(mode, keyLen, padding);
-  return aes.encrypt(plaintext, key);
+  return aes.encrypt(plaintextFile, key, ciphertextFile);
 }
 
 /*************************************************************************************************/
-std::string AES::decrypt(const std::string& ciphertext, const std::string& key, 
-                         Mode mode, KeyLen keyLen, Padding padding)
+bool AES::decrypt(Mode mode, KeyLen keyLen, Padding padding, 
+                  const std::filesystem::path& ciphertextFile, const std::string& key, 
+                  const std::filesystem::path& plaintextFile)
 {
   AES aes(mode, keyLen, padding);
-  return aes.decrypt(ciphertext, key);
+  return aes.decrypt(ciphertextFile, key, plaintextFile);
 }
 
 /*************************************************************************************************/
-std::string AES::encrypt(const std::string& plaintext, const std::string& key)
+bool AES::encrypt(const std::filesystem::path& plaintextFile, const std::string& key, 
+                  const std::filesystem::path& ciphertextFile)
 {
-  std::string ciphertext;
+  if(!std::filesystem::exists(plaintextFile))
+    return false;
+
+  std::ifstream plainFile(plaintextFile, std::ios::binary);
+  if(!plainFile.good())
+    return false;
+
+  std::ofstream cipherFile(ciphertextFile, std::ios::binary);
+  if(!cipherFile.good())
+    return false;
 
   AESKeySchedule keySchedule(m_keyLen, key);
+  if(!keySchedule.isValid())
+    return false;
+
   switch(m_mode)
   {
     case Mode::ECB:
     {
-      // ECB encrypts blocks separately
-      for(unsigned i = 0; i < plaintext.size(); i += AESBlock::sizeInBytes())
+      while(plainFile)
       {
-        AESBlock block(m_padding, plaintext.substr(i, AESBlock::sizeInBytes()), keySchedule);
-        ciphertext += block.encrypt();
+        char plaintext[AESBlock::sizeInBytes()];
+        plainFile.read(plaintext, AESBlock::sizeInBytes());
+        int plaintextLen = plainFile.gcount();
+        AESBlock block(m_padding, keySchedule, reinterpret_cast<uint8_t*>(plaintext), plaintextLen);
+        const uint8_t* ciphertext = block.encrypt();
+        cipherFile.write(reinterpret_cast<const char*>(ciphertext), AESBlock::sizeInBytes());
       }
-      break;
-    }
-    case Mode::CBC:
-    {
-      // TODO: implement CBC encryption
       break;
     }
   }
 
-  return ciphertext;
+  return true;
 }
 
 /*************************************************************************************************/
-std::string AES::decrypt(const std::string& ciphertext, const std::string& key)
+bool AES::decrypt(const std::filesystem::path& ciphertextFile, const std::string& key, 
+                  const std::filesystem::path& plaintextFile)
 {
-  std::string plaintext;
+  if(!std::filesystem::exists(ciphertextFile))
+    return false;
+  
+  std::ifstream cipherFile(ciphertextFile, std::ios::binary);
+  if(!cipherFile.good())
+    return false;
+
+  std::ofstream plainFile(plaintextFile, std::ios::binary);
+  if(!plainFile.good())
+    return false;
 
   AESKeySchedule keySchedule(m_keyLen, key);
+  if(!keySchedule.isValid())
+    return false;
+  
   switch(m_mode)
   {
     case Mode::ECB:
     {
-      // ECB decrypts blocks separately
-      for(unsigned i = 0; i < ciphertext.size(); i += AESBlock::sizeInBytes())
+      while(cipherFile)
       {
-        AESBlock block(m_padding, ciphertext.substr(i, AESBlock::sizeInBytes()), keySchedule);
-        plaintext += block.decrypt();
+        char ciphertext[AESBlock::sizeInBytes()];
+        cipherFile.read(ciphertext, AESBlock::sizeInBytes());
+        AESBlock block(m_padding, keySchedule, reinterpret_cast<uint8_t*>(ciphertext));
+        auto [plaintext, plaintextLen] = block.decrypt();
+        plainFile.write(reinterpret_cast<const char*>(plaintext), plaintextLen);
       }
-      break;
-    }
-    case Mode::CBC:
-    {
-      // TODO: implement CBC decryption
       break;
     }
   }
 
-  return plaintext;
+  return true;
 }
 

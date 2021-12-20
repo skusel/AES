@@ -1,6 +1,7 @@
 #ifndef LSKUSE_AES_H
 #define LSKUSE_AES_H
 
+#include <filesystem>
 #include <string>
 
 namespace lskuse
@@ -18,24 +19,29 @@ namespace lskuse
       enum class Mode
       {
         ECB,
-        CBC
+        //CBC,
+        // TODO: add other modes here
       };
 
       enum class Padding
       {
-        ZEROS,
-        ISO
+        ISO,
+        // TODO: add other padding types here
       };
 
       AES(Mode mode, KeyLen keyLen, Padding padding);
 
-      static std::string encrypt(const std::string& data, const std::string& key, 
-                                 Mode mode, KeyLen keyLen, Padding padding);
-      static std::string decrypt(const std::string& data, const std::string& key, 
-                                 Mode mode, KeyLen keyLen, Padding padding);
+      static bool encrypt(Mode mode, KeyLen keyLen, Padding padding, 
+                          const std::filesystem::path& plaintextFile, const std::string& key, 
+                          const std::filesystem::path& ciphertextFile);
+      static bool decrypt(Mode mode, KeyLen keyLen, Padding padding, 
+                          const std::filesystem::path& ciphertextFile, const std::string& key, 
+                          const std::filesystem::path& plaintextFile);
 
-      std::string encrypt(const std::string& data, const std::string& key);
-      std::string decrypt(const std::string& data, const std::string& key);
+      bool encrypt(const std::filesystem::path& plaintextFile, const std::string& key, 
+                   const std::filesystem::path& ciphertextFile);
+      bool decrypt(const std::filesystem::path& ciphertextFile, const std::string& key, 
+                   const std::filesystem::path& plaintextFile);
 
     private:
       Mode    m_mode;
