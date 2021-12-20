@@ -6,45 +6,49 @@
 using namespace lskuse;
 
 /*************************************************************************************************/
-AESBlock::AESBlock(AES::Padding padding, const std::string& data, const AESKeySchedule& keySchedule) :
+AESBlock::AESBlock(AES::Padding padding, const AESKeySchedule& keySchedule, const uint8_t* data, 
+                   int dataLen) :
   m_padding(padding),
+  m_keySchedule(keySchedule),
   m_data(data), 
-  m_keySchedule(keySchedule)
+  m_dataLen(dataLen)
 {
 }
 
 /*************************************************************************************************/
-std::string AESBlock::encrypt()
+const uint8_t* AESBlock::encrypt()
 {
-  std::string paddedPlaintext = pad(m_data);
-
-  std::memcpy(m_state, paddedPlaintext.c_str(), BLOCK_SIZE_BYTES);
+  std::memcpy(m_state, m_data, m_dataLen);
+  pad();
 
   return m_state;
 }
 
 /*************************************************************************************************/
-std::string AESBlock::decrypt()
+std::pair<const uint8_t*, int> AESBlock::decrypt()
 {
-  std::memcpy(m_state, m_data.c_str(), BLOCK_SIZE_BYTES);
+  std::memcpy(m_state, m_data, BLOCK_SIZE_BYTES);
+  int plaintextLen = removePadding();
 
-  return unpad(m_state);
+  return std::make_pair(m_state, plaintextLen);
 }
 
 /*************************************************************************************************/
-std::string AESBlock::pad(const std::string& plaintext)
+void AESBlock::pad()
 {
-  if(m_padding == AES::Padding::ISO)
-    return "";
   // TODO: implement padding logic if plaintext is not 16 bytes
-  return plaintext;
+  if(m_dataLen != BLOCK_SIZE_BYTES)
+  {
+    if(m_padding == AES::Padding::ISO)
+      m_state[15] = 0; // this needs to be replaced with actual logic
+  }
 }
 
 /*************************************************************************************************/
-std::string AESBlock::unpad(const std::string& paddedPlaintext)
+int AESBlock::removePadding()
 {
   // TODO: implement remove padding logic if ciphertext was padded
-  return paddedPlaintext;
+  return 12; // this needs to be replaced with the actual plaintext length
 }
 
 /*************************************************************************************************/
