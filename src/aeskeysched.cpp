@@ -17,8 +17,12 @@ AESKeySchedule::AESKeySchedule(AES::KeyLen keyLen, const std::string& key) :
 /*************************************************************************************************/
 AESKeySchedule::~AESKeySchedule()
 {
-  for(const auto& roundKey : m_keySchedule)
-    delete roundKey;
+  for(auto& roundKey : m_keySchedule)
+  {
+    if(roundKey != nullptr)
+      delete roundKey;
+    roundKey = nullptr;
+  }
 }
 
 /*************************************************************************************************/
