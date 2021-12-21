@@ -141,7 +141,7 @@ void AESKeySchedule::compute256KeySchedule()
     rcon(nextW, transformation);
     for(unsigned word = 0; word < LEN_256_IN_BYTES / WORD_LEN; word++)
     {
-      if(word == LEN_256_IN_BYTES / WORD_LEN / 2 - 1)
+      if(word == LEN_256_IN_BYTES / WORD_LEN / 2)
         subWord(nextW); // extra step in 256 bit AES key schedule
       for(unsigned byte = 0; byte < WORD_LEN; byte++)
         nextW[byte] ^= W[wIdx - LEN_256_IN_BYTES + byte];
