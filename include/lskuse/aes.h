@@ -9,6 +9,12 @@ namespace lskuse
   class AES
   {
     public:
+      struct Status
+      {
+        bool        m_success = true;
+        std::string m_message = "Operation successful";
+      };
+
       enum class KeyLen
       {
         LEN_128,
@@ -31,17 +37,17 @@ namespace lskuse
 
       AES(Mode mode, KeyLen keyLen, Padding padding);
 
-      static bool encrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                          const std::filesystem::path& plaintextFile, const std::string& key, 
-                          const std::filesystem::path& ciphertextFile);
-      static bool decrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                          const std::filesystem::path& ciphertextFile, const std::string& key, 
-                          const std::filesystem::path& plaintextFile);
+      static Status encrypt(Mode mode, KeyLen keyLen, Padding padding, 
+                            const std::filesystem::path& plaintextFile, const std::string& key, 
+                            const std::filesystem::path& ciphertextFile);
+      static Status decrypt(Mode mode, KeyLen keyLen, Padding padding, 
+                            const std::filesystem::path& ciphertextFile, const std::string& key, 
+                            const std::filesystem::path& plaintextFile);
 
-      bool encrypt(const std::filesystem::path& plaintextFile, const std::string& key, 
-                   const std::filesystem::path& ciphertextFile);
-      bool decrypt(const std::filesystem::path& ciphertextFile, const std::string& key, 
-                   const std::filesystem::path& plaintextFile);
+      Status encrypt(const std::filesystem::path& plaintextFile, const std::string& key, 
+                     const std::filesystem::path& ciphertextFile);
+      Status decrypt(const std::filesystem::path& ciphertextFile, const std::string& key, 
+                     const std::filesystem::path& plaintextFile);
 
     private:
       Mode    m_mode;
