@@ -15,41 +15,60 @@ AES::AES(Mode mode, KeyLen keyLen, Padding padding) :
 }
 
 /*************************************************************************************************/
-bool AES::encrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                  const std::filesystem::path& plaintextFile, const std::string& key, 
-                  const std::filesystem::path& ciphertextFile)
+AES::Status AES::encrypt(Mode mode, KeyLen keyLen, Padding padding, 
+                         const std::filesystem::path& plaintextFile, const std::string& key, 
+                         const std::filesystem::path& ciphertextFile)
 {
   AES aes(mode, keyLen, padding);
   return aes.encrypt(plaintextFile, key, ciphertextFile);
 }
 
 /*************************************************************************************************/
-bool AES::decrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                  const std::filesystem::path& ciphertextFile, const std::string& key, 
-                  const std::filesystem::path& plaintextFile)
+AES::Status AES::decrypt(Mode mode, KeyLen keyLen, Padding padding, 
+                         const std::filesystem::path& ciphertextFile, const std::string& key, 
+                         const std::filesystem::path& plaintextFile)
 {
   AES aes(mode, keyLen, padding);
   return aes.decrypt(ciphertextFile, key, plaintextFile);
 }
 
 /*************************************************************************************************/
-bool AES::encrypt(const std::filesystem::path& plaintextFile, const std::string& key, 
-                  const std::filesystem::path& ciphertextFile)
+AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const std::string& key, 
+                         const std::filesystem::path& ciphertextFile)
 {
-  if(!std::filesystem::exists(plaintextFile))
-    return false;
+  Status status;
+
+  std::error_code ec;
+  if(!std::filesystem::exists(plaintextFile, ec) || ec)
+  {
+    status.m_success = false;
+    status.m_message = "The plaintext file does not exist";
+    return status;
+  }
 
   std::ifstream plainFile(plaintextFile, std::ios::binary);
   if(!plainFile.good())
-    return false;
+  {
+    status.m_success = false;
+    status.m_message = "The plaintext file could not be read";
+    return status;
+  }
 
   std::ofstream cipherFile(ciphertextFile, std::ios::binary);
   if(!cipherFile.good())
-    return false;
+  {
+    status.m_success = false;
+    status.m_message = "The ciphertext file could not be written to";
+    return status;
+  }
 
   AESKeySchedule keySchedule(m_keyLen, key);
   if(!keySchedule.isValid())
-    return false;
+  {
+    status.m_success = false;
+    status.m_message = "An invalid key was provided";
+    return status;
+  }
 
   switch(m_mode)
   {
@@ -68,27 +87,46 @@ bool AES::encrypt(const std::filesystem::path& plaintextFile, const std::string&
     }
   }
 
-  return true;
+  return status;
 }
 
 /*************************************************************************************************/
-bool AES::decrypt(const std::filesystem::path& ciphertextFile, const std::string& key, 
-                  const std::filesystem::path& plaintextFile)
+AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, const std::string& key, 
+                         const std::filesystem::path& plaintextFile)
 {
-  if(!std::filesystem::exists(ciphertextFile))
-    return false;
+  Status status;
+
+  std::error_code ec;
+  if(!std::filesystem::exists(ciphertextFile) || ec)
+  {
+    status.m_success = false;
+    status.m_message = "The ciphertext file does not exist";
+    return status;
+  }
   
   std::ifstream cipherFile(ciphertextFile, std::ios::binary);
   if(!cipherFile.good())
-    return false;
+  {
+    status.m_success = false;
+    status.m_message = "The ciphertext file could not be read";
+    return status;
+  }
 
   std::ofstream plainFile(plaintextFile, std::ios::binary);
   if(!plainFile.good())
-    return false;
+  {
+    status.m_success = false;
+    status.m_message = "The plaintext file could not be written to";
+    return status;
+  }
 
   AESKeySchedule keySchedule(m_keyLen, key);
   if(!keySchedule.isValid())
-    return false;
+  {
+    status.m_success = false;
+    status.m_message = "An invalid key was provided";
+    return status;
+  }
   
   switch(m_mode)
   {
@@ -106,6 +144,6 @@ bool AES::decrypt(const std::filesystem::path& ciphertextFile, const std::string
     }
   }
 
-  return true;
+  return status;
 }
 
