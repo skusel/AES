@@ -95,7 +95,10 @@ if(AES_BUILD_TESTING)
   message(STATUS "Adding AES tests")
   include(CTest)
   # add google test
-  add_executable(AESTests tests/test_aeskeysched.cpp)
+  add_executable(AESTests 
+    tests/test_aeskeysched.cpp
+    tests/test_aesblock.cpp
+  )
   target_include_directories(AESTests PRIVATE src)
   target_link_libraries(AESTests PUBLIC gtest_main AES)
   include(GoogleTest)

@@ -10,7 +10,7 @@ namespace lskuse
   {
     public:
       AESBlock(AES::Padding padding, const AESKeySchedule& keySchedule, const uint8_t* data, 
-               int dataLen = BLOCK_SIZE_BYTES);
+               unsigned dataLen, bool lastBlock);
 
       static constexpr inline unsigned sizeInBits() {return BLOCK_SIZE_BITS;}
       static constexpr inline unsigned sizeInBytes() {return BLOCK_SIZE_BYTES;}
@@ -28,17 +28,17 @@ namespace lskuse
       void invByteSub();
       void invShiftRow();
       void invMixCol();
-      void addRoundKey();
+      void addRoundKey(unsigned round);
 
       static constexpr const unsigned BLOCK_SIZE_BITS = 128;
       static constexpr const unsigned BLOCK_SIZE_BYTES = BLOCK_SIZE_BITS / 8;
-      static constexpr const unsigned STATE_SIZE = BLOCK_SIZE_BYTES + 1;
 
-      AES::Padding   m_padding;
-      AESKeySchedule m_keySchedule;
-      const uint8_t* m_data;
-      int            m_dataLen;
-      uint8_t        m_state[STATE_SIZE] = {};
+      AES::Padding          m_padding;
+      const AESKeySchedule& m_keySchedule;
+      const uint8_t*        m_data;
+      unsigned              m_dataLen;
+      bool                  m_lastBlock;
+      uint8_t               m_state[BLOCK_SIZE_BYTES] = {};
   };
 }
 
