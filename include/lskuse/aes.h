@@ -25,13 +25,12 @@ namespace lskuse
       enum class Mode
       {
         ECB,
-        //CBC,
         // TODO: add other modes here
       };
 
       enum class Padding
       {
-        ISO,
+        PKCS7,
         // TODO: add other padding types here
       };
 

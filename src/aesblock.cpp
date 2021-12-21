@@ -2,16 +2,18 @@
 #include "sboxes.h"
 
 #include <cstring>
+#include <iostream>
 
 using namespace lskuse;
 
 /*************************************************************************************************/
 AESBlock::AESBlock(AES::Padding padding, const AESKeySchedule& keySchedule, const uint8_t* data, 
-                   int dataLen) :
+                   unsigned dataLen, bool lastBlock) :
   m_padding(padding),
   m_keySchedule(keySchedule),
   m_data(data), 
-  m_dataLen(dataLen)
+  m_dataLen(dataLen),
+  m_lastBlock(lastBlock)
 {
 }
 
@@ -19,7 +21,8 @@ AESBlock::AESBlock(AES::Padding padding, const AESKeySchedule& keySchedule, cons
 const uint8_t* AESBlock::encrypt()
 {
   std::memcpy(m_state, m_data, m_dataLen);
-  pad();
+  if(m_lastBlock)
+    pad();
 
   return m_state;
 }
@@ -28,7 +31,9 @@ const uint8_t* AESBlock::encrypt()
 std::pair<const uint8_t*, int> AESBlock::decrypt()
 {
   std::memcpy(m_state, m_data, BLOCK_SIZE_BYTES);
-  int plaintextLen = removePadding();
+  int plaintextLen = BLOCK_SIZE_BYTES;
+  if(m_lastBlock)
+    plaintextLen = removePadding();
 
   return std::make_pair(m_state, plaintextLen);
 }
@@ -36,19 +41,42 @@ std::pair<const uint8_t*, int> AESBlock::decrypt()
 /*************************************************************************************************/
 void AESBlock::pad()
 {
-  // TODO: implement padding logic if plaintext is not 16 bytes
-  if(m_dataLen != BLOCK_SIZE_BYTES)
+  if(m_dataLen < BLOCK_SIZE_BYTES)
   {
-    if(m_padding == AES::Padding::ISO)
-      m_state[15] = 0; // this needs to be replaced with actual logic
+    switch(m_padding)
+    {
+      case AES::Padding::PKCS7:
+      {
+        uint8_t numMissingBytes = BLOCK_SIZE_BYTES - m_dataLen;
+        for(unsigned i = m_dataLen; i < BLOCK_SIZE_BYTES; i++)
+          m_state[i] = numMissingBytes;
+        break;
+      }
+    }
   }
 }
 
 /*************************************************************************************************/
 int AESBlock::removePadding()
 {
-  // TODO: implement remove padding logic if ciphertext was padded
-  return 12; // this needs to be replaced with the actual plaintext length
+  switch(m_padding)
+  {
+    case AES::Padding::PKCS7:
+    {
+      uint8_t padVal = m_state[BLOCK_SIZE_BYTES - 1];
+      bool validPad = true;
+      for(unsigned i = BLOCK_SIZE_BYTES - 2; i >= BLOCK_SIZE_BYTES - padVal; i--)
+      {
+        if(m_state[i] != padVal)
+          validPad = false;
+        
+        if(i == 0)
+          break; // prevent neg value from creating segfault since using unsigned
+      }
+      return validPad ? BLOCK_SIZE_BYTES - padVal : BLOCK_SIZE_BYTES;
+    }
+  }
+  return BLOCK_SIZE_BYTES;
 }
 
 /*************************************************************************************************/
@@ -88,8 +116,9 @@ void AESBlock::invMixCol()
 }
 
 /*************************************************************************************************/
-void AESBlock::addRoundKey()
+void AESBlock::addRoundKey(unsigned round)
 {
-  // TODO:: implement addRoundKey
+  for(unsigned i = 0; i < BLOCK_SIZE_BYTES; i++)
+    m_state[i] ^= m_keySchedule.getRoundKey(round)[i];
 }
 
