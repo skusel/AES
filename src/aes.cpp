@@ -38,12 +38,19 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const std::
                          const std::filesystem::path& ciphertextFile)
 {
   Status status;
+  
+  if(ciphertextFile == plaintextFile)
+  {
+    status.m_success = false;
+    status.m_message = "The plaintext file and ciphertext file cannot be the same";
+    return status;
+  }
 
   std::error_code ec;
   if(!std::filesystem::exists(plaintextFile, ec) || ec)
   {
     status.m_success = false;
-    status.m_message = "The plaintext file does not exist";
+    status.m_message = "Cannot encrypt a plaintext file that does not exist";
     return status;
   }
   
@@ -75,7 +82,7 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const std::
   if(!keySchedule.isValid())
   {
     status.m_success = false;
-    status.m_message = "An invalid key was provided";
+    status.m_message = "An invalid key length was provided";
     return status;
   }
 
@@ -115,11 +122,18 @@ AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, const std:
 {
   Status status;
 
+  if(ciphertextFile == plaintextFile)
+  {
+    status.m_success = false;
+    status.m_message = "The ciphertext file and plaintext file cannot be the same";
+    return status;
+  }
+
   std::error_code ec;
   if(!std::filesystem::exists(ciphertextFile) || ec)
   {
     status.m_success = false;
-    status.m_message = "The ciphertext file does not exist";
+    status.m_message = "Cannot decrypt a ciphertext file that does not exist";
     return status;
   }
 
@@ -151,7 +165,7 @@ AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, const std:
   if(!keySchedule.isValid())
   {
     status.m_success = false;
-    status.m_message = "An invalid key was provided";
+    status.m_message = "An invalid key length was provided";
     return status;
   }
   
