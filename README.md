@@ -1,3 +1,7 @@
+![GitHub](https://img.shields.io/github/license/skusel/AES)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/skusel/AES/ubuntu)
+![GitHub repo size](https://img.shields.io/github/repo-size/skusel/AES)
+
 # AES
 This is an implementation of the [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) algorithm, also known as Rijndael. This implementation supports AES-128, AES-192, and AES-256 key sizes. It also supports the ECB mode of operation. PKCS#7 padding is used to fill blocks of plaintext that do not meet the 16 byte block size requirement.
 
