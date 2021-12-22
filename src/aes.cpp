@@ -165,8 +165,9 @@ AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, const std:
         char ciphertext[AESBlock::sizeInBytes()];
         cipherFile.read(ciphertext, AESBlock::sizeInBytes());
         unsigned ciphertextLen = cipherFile.gcount();
-        std::cout << "ciphertextLen = " << ciphertextLen << std::endl;
-        if(ciphertextLen != AESBlock::sizeInBytes())
+        if(ciphertextLen == 0)
+          break;
+        else if(ciphertextLen != AESBlock::sizeInBytes())
         {
           status.m_success = false;
           status.m_message = "Invalid ciphertext block found";
