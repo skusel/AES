@@ -12,12 +12,10 @@ using namespace lskuse;
  *****************************************************************************/
 
 /*************************************************************************************************/
-AESKeySchedule::AESKeySchedule(AES::KeyLen keyLen, const std::string& key) :
-  m_keyLen(keyLen),
-  m_key(key),
-  m_valid(true)
+AESKeySchedule::AESKeySchedule(AES::KeyLen keyLen, const char* key) :
+  m_keyLen(keyLen)
 {
-  computeKeySchedule();
+  computeKeySchedule(key);
 }
 
 /*************************************************************************************************/
@@ -50,38 +48,31 @@ unsigned AESKeySchedule::getNumRounds() const
 /*************************************************************************************************/
 uint8_t* AESKeySchedule::getRoundKey(unsigned round) const
 {
-  if(!isValid() || round >= m_keySchedule.size())
+  if(round >= m_keySchedule.size())
     return nullptr;
   else
     return m_keySchedule[round];
 }
 
 /*************************************************************************************************/
-void AESKeySchedule::computeKeySchedule()
+void AESKeySchedule::computeKeySchedule(const char* key)
 {
-  if((m_keyLen == AES::KeyLen::LEN_128 && m_key.size() != LEN_128_IN_BYTES) ||
-     (m_keyLen == AES::KeyLen::LEN_192 && m_key.size() != LEN_192_IN_BYTES) ||
-     (m_keyLen == AES::KeyLen::LEN_256 && m_key.size() != LEN_256_IN_BYTES))
-  {
-    m_valid = false;
-  }
-
   if(m_keyLen == AES::KeyLen::LEN_128)
-    compute128KeySchedule();
+    compute128KeySchedule(key);
   else if(m_keyLen == AES::KeyLen::LEN_192)
-    compute192KeySchedule();
+    compute192KeySchedule(key);
   else
-    compute256KeySchedule();
+    compute256KeySchedule(key);
 }
 
 /*************************************************************************************************/
-void AESKeySchedule::compute128KeySchedule()
+void AESKeySchedule::compute128KeySchedule(const char* key)
 {
   // grab the first 4 words
   unsigned wIdx = 0;
   uint8_t W[LEN_128_WORD_ARRAY_SIZE];
   for(unsigned byteIdx = 0; byteIdx < LEN_128_IN_BYTES; byteIdx++)
-    W[wIdx++] = m_key.data()[byteIdx];
+    W[wIdx++] = key[byteIdx];
 
   // apply the transformation 10 times to get a total of 11 round keys
   for(unsigned transformation = 0; transformation < LEN_128_TRANSFORMATIONS; transformation++)
@@ -112,13 +103,13 @@ void AESKeySchedule::compute128KeySchedule()
 }
 
 /*************************************************************************************************/
-void AESKeySchedule::compute192KeySchedule()
+void AESKeySchedule::compute192KeySchedule(const char* key)
 {
   // grab the first 6 words
   unsigned wIdx = 0;
   uint8_t W[LEN_192_WORD_ARRAY_SIZE];
   for(unsigned byteIdx = 0; byteIdx < LEN_192_IN_BYTES; byteIdx++)
-    W[wIdx++] = m_key.data()[byteIdx];
+    W[wIdx++] = key[byteIdx];
 
   // apply the tranformation 9 times to get a total of 13 round keys
   for(unsigned transformation = 0; transformation < LEN_192_TRANSFORMATIONS; transformation++)
@@ -149,13 +140,13 @@ void AESKeySchedule::compute192KeySchedule()
 }
 
 /*************************************************************************************************/
-void AESKeySchedule::compute256KeySchedule()
+void AESKeySchedule::compute256KeySchedule(const char* key)
 {
   // grab the first 8 words
   unsigned wIdx = 0;
   uint8_t W[LEN_256_WORD_ARRAY_SIZE];
   for(unsigned byteIdx = 0; byteIdx < LEN_256_IN_BYTES; byteIdx++)
-    W[wIdx++] = m_key.data()[byteIdx];
+    W[wIdx++] = key[byteIdx];
 
   // apply the transformation 8 times to get a total of 15 round keys
   for(unsigned transformation = 0; transformation < LEN_256_TRANSFORMATIONS; transformation++)

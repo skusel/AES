@@ -37,15 +37,15 @@ namespace lskuse
       AES(Mode mode, KeyLen keyLen, Padding padding);
 
       static Status encrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                            const std::filesystem::path& plaintextFile, const std::string& key, 
+                            const std::filesystem::path& plaintextFile, const char* key, 
                             const std::filesystem::path& ciphertextFile);
       static Status decrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                            const std::filesystem::path& ciphertextFile, const std::string& key, 
+                            const std::filesystem::path& ciphertextFile, const char* key, 
                             const std::filesystem::path& plaintextFile);
 
-      Status encrypt(const std::filesystem::path& plaintextFile, const std::string& key, 
+      Status encrypt(const std::filesystem::path& plaintextFile, const char* key, 
                      const std::filesystem::path& ciphertextFile);
-      Status decrypt(const std::filesystem::path& ciphertextFile, const std::string& key, 
+      Status decrypt(const std::filesystem::path& ciphertextFile, const char* key, 
                      const std::filesystem::path& plaintextFile);
 
     private:
