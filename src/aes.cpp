@@ -3,6 +3,7 @@
 #include "aeskeysched.h"
 
 #include <fstream>
+#include <iostream>
 
 using namespace lskuse;
 
@@ -164,6 +165,7 @@ AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, const std:
         char ciphertext[AESBlock::sizeInBytes()];
         cipherFile.read(ciphertext, AESBlock::sizeInBytes());
         unsigned ciphertextLen = cipherFile.gcount();
+        std::cout << "ciphertextLen = " << ciphertextLen << std::endl;
         if(ciphertextLen != AESBlock::sizeInBytes())
         {
           status.m_success = false;
