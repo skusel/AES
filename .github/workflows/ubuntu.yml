@@ -1,0 +1,30 @@
+name: ubuntu
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Configure CMake
+      run: cmake --preset=debug
+
+    - name: Build
+      run: cmake --build --preset=debug-build
+
+    - name: Test
+      run: ctest --preset=debug-test
+
+    - name: Static Analysis
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y cppcheck
+        cppcheck --version
+        cppcheck --enable=all --suppressions-list=cppcheck_suppressions.txt --error-exitcode=1 .
