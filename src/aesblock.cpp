@@ -5,6 +5,11 @@
 
 using namespace lskuse;
 
+/******************************************************************************
+ * The AES algorithm implemented below was based on the algorithm described in
+ * https://www.crypto-textbook.com/download/Understanding-Cryptography-Chapter4.pdf
+ *****************************************************************************/
+
 /*************************************************************************************************/
 AESBlock::AESBlock(AES::Padding padding, const AESKeySchedule& keySchedule, const uint8_t* data, 
                    unsigned dataLen, bool lastBlock) :
@@ -78,6 +83,10 @@ void AESBlock::pad()
     {
       case AES::Padding::PKCS7:
       {
+        /************************************************************************
+         * padding method explained in... 
+         * https://www.ibm.com/docs/en/zos/2.4.0?topic=rules-pkcs-padding-method
+         ***********************************************************************/
         uint8_t numMissingBytes = BLOCK_SIZE_BYTES - m_dataLen;
         for(unsigned i = m_dataLen; i < BLOCK_SIZE_BYTES; i++)
           m_state[i] = numMissingBytes;

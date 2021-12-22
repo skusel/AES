@@ -6,6 +6,11 @@
 
 using namespace lskuse;
 
+/******************************************************************************
+ * The key schedule algorithm implemented below was based on the algorithm 
+ * described in https://www.crypto-textbook.com/download/Understanding-Cryptography-Chapter4.pdf
+ *****************************************************************************/
+
 /*************************************************************************************************/
 AESKeySchedule::AESKeySchedule(AES::KeyLen keyLen, const std::string& key) :
   m_keyLen(keyLen),
