@@ -25,7 +25,7 @@ include(FetchContent)
 FetchContent_Declare(
   lskuse_aes
   GIT_REPOSITORY https://github.com/skusel/AES.git
-  GIT_TAG 1.0
+  GIT_TAG v1.0
 )
 FetchContent_MakeAvailable(lskuse_aes)
 add_executable(foo ...)
