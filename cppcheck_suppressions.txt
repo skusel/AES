@@ -1,0 +1,7 @@
+unmatchedSuppression
+missingInclude
+missingReturn
+
+#directories
+*:build/*
+*:tests/*
