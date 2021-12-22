@@ -43,6 +43,7 @@ namespace lskuse
       bool                  m_valid;
       std::vector<uint8_t*> m_keySchedule;
 
+      // RCON obtained from https://en.wikipedia.org/wiki/AES_key_schedule
       static constexpr const uint8_t RCON[10] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
   };
 }

@@ -91,14 +91,15 @@ set(LSKUSE_AES_HEADERS
   include/lskuse/aes.h
   include/lskuse/aesversion.h
 )
-add_library(lskuse_aes ${LSKUSE_AES_SRC})
-target_include_directories(lskuse_aes PUBLIC include)
+add_library(${LSKUSE_AES_TARGET_NAME} ${LSKUSE_AES_SRC})
+add_library(${PROJECT_NAME}::${LSKUSE_AES_TARGET_NAME} ALIAS ${LSKUSE_AES_TARGET_NAME})
+target_include_directories(${LSKUSE_AES_TARGET_NAME} PUBLIC include)
 
 ###############################################################################
 # add library tests
 ###############################################################################
 if(LSKUSE_AES_BUILD_TESTING)
-  message(STATUS "Adding lskuse_aes tests")
+  message(STATUS "Adding ${LSKUSE_AES_TARGET_NAME} tests")
   include(CTest)
   # add google test
   add_executable(AESTests 
@@ -106,7 +107,7 @@ if(LSKUSE_AES_BUILD_TESTING)
     tests/test_aesblock.cpp
   )
   target_include_directories(AESTests PRIVATE src)
-  target_link_libraries(AESTests PUBLIC gtest_main lskuse_aes)
+  target_link_libraries(AESTests PUBLIC gtest_main ${LSKUSE_AES_TARGET_NAME})
   include(GoogleTest)
   gtest_discover_tests(AESTests XML_OUTPUT_DIR "${PROJECT_BINARY_DIR}/TestResults")
 endif()
