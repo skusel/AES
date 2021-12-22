@@ -2,6 +2,7 @@
 #include "aessboxes.h"
 
 #include <cassert>
+#include <cstring>
 
 using namespace lskuse;
 
@@ -20,7 +21,7 @@ AESKeySchedule::~AESKeySchedule()
   for(auto& roundKey : m_keySchedule)
   {
     if(roundKey != nullptr)
-      delete roundKey;
+      delete [] roundKey;
     roundKey = nullptr;
   }
 }
@@ -36,6 +37,8 @@ unsigned AESKeySchedule::getNumRounds() const
       return 12;
     case AES::KeyLen::LEN_256:
       return 14;
+    default:
+      return m_keySchedule.size() - 1;
   }
 }
 
