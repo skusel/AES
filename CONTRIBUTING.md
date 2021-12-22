@@ -2,7 +2,7 @@
 Thank you for your interest in this project!
 
 ## Feature Requests and Reporting Bugs
-If you would like to request a feature or if you see a bug in the code and want to report it, please open and [issue](https://github.com/skusel/AES/issues/new).
+If you would like to request a feature or if you see a bug in the code and want to report it, please open an [issue](https://github.com/skusel/AES/issues/new).
 
 ## Contributing a Feature or Patch
 If you would like to contribute to the code, please create a [pull request](https://github.com/skusel/AES/pulls). Pull requests will not be pulled in unless all GitHub workflows pass.
@@ -55,7 +55,7 @@ In general, you should follow the style of the code around you. Below are a few 
 - Indentation should be 2 **spaces**, not tabs.
 - Brackets should only be used when absolutely necessary or if they make the code clearer. They should always be placed on the next line.
 - Class names should follow UpperCammelCase format.
-- Functions and variable should follow lowerCammelCase format.
+- Functions and variables should follow lowerCammelCase format.
 - Class member variables should being with `m_`.
 - Keep functions small, readable, and easily testable.
 

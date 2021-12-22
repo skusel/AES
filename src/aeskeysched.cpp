@@ -7,8 +7,8 @@
 using namespace lskuse;
 
 /******************************************************************************
- * The key schedule algorithm implemented below was based on the algorithm 
- * described in https://www.crypto-textbook.com/download/Understanding-Cryptography-Chapter4.pdf
+ * The key schedule algorithm is described in... 
+ * https://www.crypto-textbook.com/download/Understanding-Cryptography-Chapter4.pdf
  *****************************************************************************/
 
 /*************************************************************************************************/
