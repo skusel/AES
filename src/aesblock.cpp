@@ -5,6 +5,11 @@
 
 using namespace lskuse;
 
+/******************************************************************************
+ * The AES algorithm implemented below was based on the algorithm described in
+ * https://www.crypto-textbook.com/download/Understanding-Cryptography-Chapter4.pdf
+ *****************************************************************************/
+
 /*************************************************************************************************/
 AESBlock::AESBlock(AES::Padding padding, const AESKeySchedule& keySchedule, const uint8_t* data, 
                    unsigned dataLen, bool lastBlock) :
