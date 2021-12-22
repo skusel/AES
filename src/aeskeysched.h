@@ -14,6 +14,7 @@ namespace lskuse
       ~AESKeySchedule();
 
       inline bool isValid() const {return m_valid;}
+      unsigned getNumRounds() const;
       uint8_t* getRoundKey(unsigned round) const;
 
     private:

@@ -20,7 +20,9 @@ namespace lskuse
 
     private:
       void pad();
-      int removePadding();
+      unsigned removePadding();
+
+      uint8_t gfmult(uint8_t a, uint8_t b);
 
       void byteSub();
       void shiftRow();
@@ -32,6 +34,7 @@ namespace lskuse
 
       static constexpr const unsigned BLOCK_SIZE_BITS = 128;
       static constexpr const unsigned BLOCK_SIZE_BYTES = BLOCK_SIZE_BITS / 8;
+      static constexpr const unsigned WORD_SIZE_BYTES = BLOCK_SIZE_BYTES / 4;
 
       AES::Padding          m_padding;
       const AESKeySchedule& m_keySchedule;

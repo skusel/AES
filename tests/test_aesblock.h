@@ -18,6 +18,8 @@ namespace lskuse
       //void TearDown() final;
 
       AESKeySchedule m_keySched128;
+      AESKeySchedule m_keySched192;
+      AESKeySchedule m_keySched256;
   };
 }
 
