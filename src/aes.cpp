@@ -3,7 +3,6 @@
 #include "aeskeysched.h"
 
 #include <fstream>
-#include <iostream>
 
 using namespace lskuse;
 
@@ -91,23 +90,17 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const std::
     case Mode::ECB:
     {
       unsigned numBytesRead = 0;
-      unsigned plaintextLen = 0;
       while(plainFile)
       {
         char plaintext[AESBlock::sizeInBytes()];
         plainFile.read(plaintext, AESBlock::sizeInBytes());
-        plaintextLen = plainFile.gcount();
+        // plaintextLen will be set to 0 if reached end and entire last block was filled
+        unsigned plaintextLen = plainFile.gcount();
         numBytesRead += plaintextLen;
-        bool lastBlock = (numBytesRead >= fileSize && numBytesRead != AESBlock::sizeInBytes());
+        bool lastBlock = (numBytesRead >= fileSize && plaintextLen != AESBlock::sizeInBytes());
         AESBlock block(m_padding, keySchedule, reinterpret_cast<uint8_t*>(plaintext), plaintextLen, lastBlock);
         const uint8_t* ciphertext = block.encrypt();
         cipherFile.write(reinterpret_cast<const char*>(ciphertext), AESBlock::sizeInBytes());
-      }
-      if(m_padding == Padding::PKCS7 && plaintextLen == AESBlock::sizeInBytes())
-      {
-        // last block was fully filled, add a block of just padding
-        uint8_t plaintext[AESBlock::sizeInBytes()];
-        AESBlock block(m_padding, keySchedule, plaintext, 0, true);
       }
       break;
     }
