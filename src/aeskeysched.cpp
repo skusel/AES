@@ -1,5 +1,5 @@
 #include "aeskeysched.h"
-#include "sboxes.h"
+#include "aessboxes.h"
 
 #include <cassert>
 
@@ -22,6 +22,20 @@ AESKeySchedule::~AESKeySchedule()
     if(roundKey != nullptr)
       delete roundKey;
     roundKey = nullptr;
+  }
+}
+
+/*************************************************************************************************/
+unsigned AESKeySchedule::getNumRounds() const
+{
+  switch(m_keyLen)
+  {
+    case AES::KeyLen::LEN_128:
+      return 10;
+    case AES::KeyLen::LEN_192:
+      return 12;
+    case AES::KeyLen::LEN_256:
+      return 14;
   }
 }
 
