@@ -6,7 +6,7 @@
 using namespace lskuse;
 
 /******************************************************************************
- * The AES algorithm implemented below was based on the algorithm described in
+ * The AES algorithm is described in...
  * https://www.crypto-textbook.com/download/Understanding-Cryptography-Chapter4.pdf
  *****************************************************************************/
 
@@ -84,7 +84,7 @@ void AESBlock::pad()
       case AES::Padding::PKCS7:
       {
         /************************************************************************
-         * padding method explained in... 
+         * Padding method explained in... 
          * https://www.ibm.com/docs/en/zos/2.4.0?topic=rules-pkcs-padding-method
          ***********************************************************************/
         uint8_t numMissingBytes = BLOCK_SIZE_BYTES - m_dataLen;

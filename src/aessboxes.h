@@ -3,7 +3,10 @@
 
 namespace lskuse
 {
-  // tables derived from https://en.wikipedia.org/wiki/Rijndael_S-box
+  /****************************************************************************
+   * Tables derived from... 
+   * https://en.wikipedia.org/wiki/Rijndael_S-box
+   ***************************************************************************/
 
   // hardcode sboxes so we can skip inverse GF(2^8) and affine mapping computations
   constexpr const uint8_t AES_SBOX[256] = {
