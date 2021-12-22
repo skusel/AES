@@ -1,6 +1,5 @@
 unmatchedSuppression
 missingInclude
-missingReturn
 
 #directories
 *:build/*
