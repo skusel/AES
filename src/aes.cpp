@@ -16,7 +16,7 @@ AES::AES(Mode mode, KeyLen keyLen, Padding padding) :
 
 /*************************************************************************************************/
 AES::Status AES::encrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                         const std::filesystem::path& plaintextFile, const std::string& key, 
+                         const std::filesystem::path& plaintextFile, const char* key, 
                          const std::filesystem::path& ciphertextFile)
 {
   AES aes(mode, keyLen, padding);
@@ -25,7 +25,7 @@ AES::Status AES::encrypt(Mode mode, KeyLen keyLen, Padding padding,
 
 /*************************************************************************************************/
 AES::Status AES::decrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                         const std::filesystem::path& ciphertextFile, const std::string& key, 
+                         const std::filesystem::path& ciphertextFile, const char* key, 
                          const std::filesystem::path& plaintextFile)
 {
   AES aes(mode, keyLen, padding);
@@ -33,7 +33,7 @@ AES::Status AES::decrypt(Mode mode, KeyLen keyLen, Padding padding,
 }
 
 /*************************************************************************************************/
-AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const std::string& key, 
+AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const char* key, 
                          const std::filesystem::path& ciphertextFile)
 {
   Status status;
@@ -78,12 +78,6 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const std::
   }
 
   AESKeySchedule keySchedule(m_keyLen, key);
-  if(!keySchedule.isValid())
-  {
-    status.m_success = false;
-    status.m_message = "An invalid key length was provided";
-    return status;
-  }
 
   switch(m_mode)
   {
@@ -110,7 +104,7 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const std::
 }
 
 /*************************************************************************************************/
-AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, const std::string& key, 
+AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, const char* key, 
                          const std::filesystem::path& plaintextFile)
 {
   Status status;
@@ -155,12 +149,6 @@ AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, const std:
   }
 
   AESKeySchedule keySchedule(m_keyLen, key);
-  if(!keySchedule.isValid())
-  {
-    status.m_success = false;
-    status.m_message = "An invalid key length was provided";
-    return status;
-  }
   
   switch(m_mode)
   {

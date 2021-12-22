@@ -10,18 +10,17 @@ namespace lskuse
   class AESKeySchedule
   {
     public:
-      AESKeySchedule(AES::KeyLen keyLen, const std::string& key);
+      AESKeySchedule(AES::KeyLen keyLen, const char* key);
       ~AESKeySchedule();
 
-      inline bool isValid() const {return m_valid;}
       unsigned getNumRounds() const;
       uint8_t* getRoundKey(unsigned round) const;
 
     private:
-      void computeKeySchedule();
-      void compute128KeySchedule();
-      void compute192KeySchedule();
-      void compute256KeySchedule();
+      void computeKeySchedule(const char* key);
+      void compute128KeySchedule(const char* key);
+      void compute192KeySchedule(const char* key);
+      void compute256KeySchedule(const char* key);
       void rotWord(uint8_t* word);
       void subWord(uint8_t* word);
       void rcon(uint8_t* word, unsigned round);
@@ -39,8 +38,6 @@ namespace lskuse
       static constexpr const unsigned LEN_256_TRANSFORMATIONS = LEN_256_WORD_ARRAY_SIZE / LEN_256_IN_BYTES - 1;
 
       AES::KeyLen           m_keyLen;
-      std::string           m_key;
-      bool                  m_valid;
       std::vector<uint8_t*> m_keySchedule;
 
       /************************************************************************

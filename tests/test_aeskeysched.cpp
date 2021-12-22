@@ -17,7 +17,7 @@ namespace lskuse
   {
     TEST(AESKeyScheduleTest, test128KeySchedule)
     {
-      char origKey[17];
+      char origKey[16];
       origKey[0] = 0x2b;
       origKey[1] = 0x7e;
       origKey[2] = 0x15;
@@ -34,7 +34,6 @@ namespace lskuse
       origKey[13] = 0xcf; 
       origKey[14] = 0x4f;
       origKey[15] = 0x3c;
-      origKey[16] = '\0';
 
       AESKeySchedule keySched(AES::KeyLen::LEN_128, origKey);
 
@@ -118,7 +117,7 @@ namespace lskuse
 
     TEST(AESKeyScheduleTest, test192KeySchedule)
     {
-      char origKey[25];
+      char origKey[24];
       origKey[0] = 0x8e;
       origKey[1] = 0x73;
       origKey[2] = 0xb0;
@@ -143,7 +142,6 @@ namespace lskuse
       origKey[21] = 0x2c; 
       origKey[22] = 0x6b;
       origKey[23] = 0x7b;
-      origKey[24] = '\0';
 
       AESKeySchedule keySched(AES::KeyLen::LEN_192, origKey);
 
@@ -241,7 +239,7 @@ namespace lskuse
 
     TEST(AESKeyScheduleTest, test256KeySchedule)
     {
-      char origKey[33];
+      char origKey[32];
       origKey[0] = 0x60;
       origKey[1] = 0x3d;
       origKey[2] = 0xeb;
@@ -274,7 +272,6 @@ namespace lskuse
       origKey[29] = 0x14;
       origKey[30] = 0xdf;
       origKey[31] = 0xf4;
-      origKey[32] = '\0';
 
       AESKeySchedule keySched(AES::KeyLen::LEN_256, origKey);
 
