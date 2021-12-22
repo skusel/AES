@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 ###############################################################################
 # project description
 ###############################################################################
-project(AES VERSION 1.0)
+project(lskuse_aes VERSION 1.0)
 
 ###############################################################################
 # project dev tools info
@@ -31,17 +31,17 @@ string(APPEND CMAKE_CXX_FLAGS_DEBUG " -Wall -Wextra -Werror")
 ###############################################################################
 # options
 ###############################################################################
-option(AES_ASAN "Turn on address sanitizer" OFF)
-option(AES_USAN "Turn on undefined behavior sanitizer" OFF)
-option(AES_BUILD_TESTING "Build AES tests when BUILD_TESTING is enabled" PROJECT_IS_TOP_LEVEL)
+option(LSKUSE_AES_ASAN "Turn on address sanitizer" OFF)
+option(LSKUSE_AES_USAN "Turn on undefined behavior sanitizer" OFF)
+option(LSKUSE_AES_BUILD_TESTING "Build LSKUSE_AES tests when BUILD_TESTING is enabled" PROJECT_IS_TOP_LEVEL)
 
 ###############################################################################
 # disable/enable sanitizers
 ###############################################################################
-if(AES_ASAN)
+if(LSKUSE_AES_ASAN)
   string(APPEND CMAKE_CXX_FLAGS " -fsanitize=address")
 endif()
-if(AES_USAN)
+if(LSKUSE_AES_USAN)
   string(APPEND CMAKE_CXX_FLAGS " -fsanitize=undefined")
 endif()
 
@@ -54,18 +54,18 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # set vars
 ###############################################################################
 include(GNUInstallDirs)
-set(AES_TARGET_NAME ${PROJECT_NAME})
-set(AES_EXPORT_NAME ${AES_TARGET_NAME}Targets)
-set(AES_BIN_INSTALL_DIR ${CMAKE_INSTALL_BINDIR})
-set(AES_LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
-set(AES_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
+set(LSKUSE_AES_TARGET_NAME ${PROJECT_NAME})
+set(LSKUSE_AES_EXPORT_NAME ${LSKUSE_AES_TARGET_NAME}Targets)
+set(LSKUSE_AES_BIN_INSTALL_DIR ${CMAKE_INSTALL_BINDIR})
+set(LSKUSE_AES_LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
+set(LSKUSE_AES_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
 
 ###############################################################################
 # fetch thirdparty dependencies
 ###############################################################################
 include(FetchContent)
 #set(FETCHCONTENT_QUIET ON)
-if(AES_BUILD_TESTING)
+if(LSKUSE_AES_BUILD_TESTING)
   FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
@@ -75,24 +75,30 @@ if(AES_BUILD_TESTING)
 endif()
 
 ###############################################################################
+# create version header file
+###############################################################################
+configure_file(cmake/aesversion.h.in ${PROJECT_SOURCE_DIR}/include/lskuse/aesversion.h)
+
+###############################################################################
 # add library
 ###############################################################################
-set(AES_SRC
+set(LSKUSE_AES_SRC
   src/aes.cpp
   src/aesblock.cpp
   src/aeskeysched.cpp
 )
-set(AES_HEADERS
+set(LSKUSE_AES_HEADERS
   include/lskuse/aes.h
+  include/lskuse/aesversion.h
 )
-add_library(AES ${AES_SRC})
-target_include_directories(AES PUBLIC include)
+add_library(lskuse_aes ${LSKUSE_AES_SRC})
+target_include_directories(lskuse_aes PUBLIC include)
 
 ###############################################################################
 # add library tests
 ###############################################################################
-if(AES_BUILD_TESTING)
-  message(STATUS "Adding AES tests")
+if(LSKUSE_AES_BUILD_TESTING)
+  message(STATUS "Adding lskuse_aes tests")
   include(CTest)
   # add google test
   add_executable(AESTests 
@@ -100,7 +106,7 @@ if(AES_BUILD_TESTING)
     tests/test_aesblock.cpp
   )
   target_include_directories(AESTests PRIVATE src)
-  target_link_libraries(AESTests PUBLIC gtest_main AES)
+  target_link_libraries(AESTests PUBLIC gtest_main lskuse_aes)
   include(GoogleTest)
   gtest_discover_tests(AESTests XML_OUTPUT_DIR "${PROJECT_BINARY_DIR}/TestResults")
 endif()
@@ -108,16 +114,16 @@ endif()
 ###############################################################################
 # make project installable
 ###############################################################################
-install(TARGETS ${AES_TARGET_NAME}
-  EXPORT ${AES_EXPORT_NAME}
-  RUNTIME DESTINATION ${AES_BIN_INSTALL_DIR}
-  LIBRARY DESTINATION ${AES_LIB_INSTALL_DIR}
-  ARCHIVE DESTINATION ${AES_LIB_INSTALL_DIR}
-  INCLUDES DESTINATION ${AES_INCLUDE_INSTALL_DIR}
+install(TARGETS ${LSKUSE_AES_TARGET_NAME}
+  EXPORT ${LSKUSE_AES_EXPORT_NAME}
+  RUNTIME DESTINATION ${LSKUSE_AES_BIN_INSTALL_DIR}
+  LIBRARY DESTINATION ${LSKUSE_AES_LIB_INSTALL_DIR}
+  ARCHIVE DESTINATION ${LSKUSE_AES_LIB_INSTALL_DIR}
+  INCLUDES DESTINATION ${LSKUSE_AES_INCLUDE_INSTALL_DIR}
 )
-foreach(header ${AES_HEADERS})
+foreach(header ${LSKUSE_AES_HEADERS})
   install(FILES ${header}
-    DESTINATION ${AES_INCLUDE_INSTALL_DIR}/lskuse
+    DESTINATION ${LSKUSE_AES_INCLUDE_INSTALL_DIR}/lskuse
   )
 endforeach()
 
