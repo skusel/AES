@@ -36,7 +36,7 @@ add_executable(foo ...)
 target_link_libraries(foo PRIVATE lskuse_aes::lskuse_aes)
 ```
 
-You can also add this library as a sub-directory in your project and include it in you CMake that way. A common way of doing this is to include this repository as a git submodule, but you can also download the source.
+You can also add this library as a sub-directory in your CMake project. A common way of doing this is to include this repository as a git submodule, but you can also download the source.
 
 Example:
 ```
