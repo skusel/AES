@@ -8,6 +8,8 @@ This is an implementation of the [AES](https://en.wikipedia.org/wiki/Advanced_En
 ## Design goals
 Written as a fun side project, the main purpose was to implement a working AES algorithm. At the same time, I wanted to provide an easy to use interface for encrypting and decrypting files using AES.
 
+I also wanted the library to support binary keys and data. As a result, the main interface accepts the key as a `const char*`. This allows the user to set each of the key's bytes to any value in the range [0, 255] or pass the key as an ascii string (i.e. "0123456789abcdef"). It will stop reading the key's bytes when the expected key length is hit - 16 for AES-128, 24 for AES-192, and 32 for AES-256. Additionally, the files are read in and written to as binary data, so this library is capable of encrypting and decrypting a wide range of file types.
+
 For the most part, I preferenced quick look-ups over reduced library size. The key schedule is precomputed and stored in a vector rather than computed "on-the-fly". Similarly, an AES s-box and inverse s-box are stored in two 256-byte arrays, which is faster than the inverse GF(2^8) and affine mapping computation that would otherwise be needed. On the other hand, the "mix columns" step performs [finite field multiplication](https://en.wikipedia.org/wiki/Finite_field_arithmetic#Multiplication) using a variation of the peasent multiplication algorithm. This algorithm is slower than a table lookup but prevents the need for finite field multiplication tables in code.
 
 ## Validation
