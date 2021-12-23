@@ -13,7 +13,7 @@ I also wanted the library to support binary keys and data. As a result, the main
 For the most part, I preferenced quick look-ups over "on-the-fly" computations. The key schedule is precomputed and stored in a vector rather than computed "on-the-fly". Similarly, an AES s-box and inverse s-box are stored in two 256-byte arrays, which is faster than the inverse GF(2^8) and affine mapping computation that would otherwise be needed. On the other hand, the "mix columns" step performs [finite field multiplication](https://en.wikipedia.org/wiki/Finite_field_arithmetic#Multiplication) using a variation of the peasent multiplication algorithm. This algorithm is slower than a table lookup but prevents the need for finite field multiplication tables in code.
 
 ## Validation
-Unit tests test were written to check against output of known working implementations of the AES alogirthm or example values in the [AES publication](https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.197.pdf). 
+Unit tests test were written to check against output of [online implementations](https://www.codeusingjava.com/tools/aes) of the AES alogirthm or example values in the [AES publication](https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.197.pdf). 
 
 This library has **not** implemented unit tests for NIST Known Answer Test (KAT) vectors yet. These checks may be added in the future.
 
