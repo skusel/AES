@@ -15,9 +15,7 @@ For the most part, I preferenced quick look-ups over "on-the-fly" computations. 
 ## Validation
 Unit tests test were written to check against output of known working implementations of the AES alogirthm or example values in the [AES publication](https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.197.pdf). 
 
-This library has not implemented unit tests for NIST Known Answer Test (KAT) vectors yet. These checks may be added in the future.
-
-Please note, this library does **not** acheive NIST FIPS 140-2 validation. If you are trying to encrypt information that is very secret or highly confidential with AES, you should seek a crypto library with FIPS 140-2 validation.
+This library has **not** implemented unit tests for NIST Known Answer Test (KAT) vectors yet. These checks may be added in the future.
 
 ## Integration
 There are several ways to include this library in your source tree. 
