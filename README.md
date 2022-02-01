@@ -119,17 +119,17 @@ status = AES::decrypt(Mode::ECB, KeyLen::LEN_256, Padding::PKCS7,
 
 // decrypt with 16-byte key
 AES aes0(Mode::ECB, KeyLen::LEN_128, Padding::PKCS7);
-status = aes0.encrypt("/path/to/ciphertext/file", "0123456789abcdef", 
+status = aes0.decrypt("/path/to/ciphertext/file", "0123456789abcdef", 
                       "/path/to/output/plaintext/file");
 
 // decrypt with 24-byte key
 AES aes1(Mode::ECB, KeyLen::LEN_192, Padding::PKCS7);
-status = aes1.encrypt("/path/to/ciphertext/file", "0123456789abcdef01234567", 
+status = aes1.decrypt("/path/to/ciphertext/file", "0123456789abcdef01234567", 
                       "/path/to/output/plaintext/file");
 
 // decrypt with 32-byte key
 AES aes2(Mode::ECB, KeyLen::LEN_256, Padding::PKCS7);
-status = aes2.encrypt("/path/to/ciphertext/file", "0123456789abcdef0123456789abcdef", 
+status = aes2.decrypt("/path/to/ciphertext/file", "0123456789abcdef0123456789abcdef", 
                       "/path/to/output/plaintext/file");
 ```
 
