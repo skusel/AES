@@ -8,7 +8,7 @@ This is an implementation of the [AES](https://en.wikipedia.org/wiki/Advanced_En
 ## Design goals
 Written as a fun side project, the main purpose was to implement a working AES algorithm.
 
-I designed the library's interface to be intuitive for users. The interface is described in greater detail below. 
+I designed the library's interface to be intuitive for users by creating accurately named functions, using enums to define AES options, and providing documentation for all `encrypt` and `dcrypt` function calls. The library's public interface is described in greater detail below. 
 
 I also designed the library to support binary keys and data. As a result, the main interface accepts the key as a `const char*`. This allows the user to set each of the key's bytes to any value in the range [0, 255] or pass the key as an ascii string (i.e. "0123456789abcdef"). It will not stop reading the key's bytes at the first NULL char. Instead, it will stop reading when the expected key length is hit - 16 for AES-128, 24 for AES-192, and 32 for AES-256. Additionally, the files are read in and written to as binary data, so this library is capable of encrypting and decrypting a wide range of file types.
 
