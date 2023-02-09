@@ -1,5 +1,5 @@
 ![GitHub](https://img.shields.io/github/license/skusel/AES)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/skusel/AES/ubuntu)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/skusel/AES/ubuntu.yml)
 ![GitHub repo size](https://img.shields.io/github/repo-size/skusel/AES)
 
 # AES
