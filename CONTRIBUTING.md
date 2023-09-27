@@ -48,7 +48,7 @@ ctest --preset=debug-test --tests-regex <some regex you want to match>
 ```
 
 ## Compiler Support
-This code has been built with AppleClang 13.0.0.13000029 on macOS and with GCC 9.3.0 on Ubuntu. No guarentees can be made about its ability to be built on other compilers, but it is intended to work on any compiler that supports the C++17 standard.
+This code has been built with AppleClang 13.0.0 on macOS and with GCC 9.3.0 on Ubuntu. No guarantees can be made about its ability to be built on other compilers, but it is intended to work on any compiler that supports the C++17 standard.
 
 ## Style
 In general, you should follow the style of the code around you. Below are a few style points I would like to highlight.
