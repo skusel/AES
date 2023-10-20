@@ -3,7 +3,7 @@
 
 #include <cstring>
 
-using namespace lskuse;
+using namespace skusel;
 
 /******************************************************************************
  * The AES algorithm is described in...

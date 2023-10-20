@@ -1,10 +1,10 @@
-#ifndef LSKUSE_AES_H
-#define LSKUSE_AES_H
+#ifndef SKUSEL_AES_H
+#define SKUSEL_AES_H
 
 #include <filesystem>
 #include <string>
 
-namespace lskuse
+namespace skusel
 {
   class AES
   {
@@ -57,4 +57,4 @@ namespace lskuse
   };
 }
 
-#endif // LSKUSE_AES_H
+#endif // SKUSEL_AES_H

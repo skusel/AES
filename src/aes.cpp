@@ -1,10 +1,10 @@
-#include "lskuse/aes.h"
+#include "skusel/aes.h"
 #include "aesblock.h"
 #include "aeskeysched.h"
 
 #include <fstream>
 
-using namespace lskuse;
+using namespace skusel;
 
 /*************************************************************************************************/
 AES::AES(Mode mode, KeyLen keyLen, Padding padding) :

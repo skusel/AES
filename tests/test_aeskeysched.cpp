@@ -11,7 +11,7 @@
  * Pages 27-32
  *****************************************************************************/
 
-namespace lskuse
+namespace skusel
 {
   namespace AESKeyScheduleTest
   {

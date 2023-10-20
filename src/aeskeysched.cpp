@@ -4,7 +4,7 @@
 #include <cassert>
 #include <cstring>
 
-using namespace lskuse;
+using namespace skusel;
 
 /******************************************************************************
  * The key schedule algorithm is described in... 

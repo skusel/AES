@@ -1,10 +1,10 @@
-#ifndef LSKUSE_AES_BLOCK_H
-#define LSKUSE_AES_BLOCK_H
+#ifndef SKUSEL_AES_BLOCK_H
+#define SKUSEL_AES_BLOCK_H
 
-#include "lskuse/aes.h"
+#include "skusel/aes.h"
 #include "aeskeysched.h"
 
-namespace lskuse
+namespace skusel
 {
   class AESBlock
   {
@@ -45,4 +45,4 @@ namespace lskuse
   };
 }
 
-#endif // LSKUSE_AES_BLOCK_H
+#endif // SKUSEL_AES_BLOCK_H

@@ -2,7 +2,7 @@
 
 #include "aesblock.h"
 
-namespace lskuse
+namespace skusel
 {
   /*********************************************************************************************/
   AESBlockTest::AESBlockTest() :

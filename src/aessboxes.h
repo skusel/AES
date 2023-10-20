@@ -1,7 +1,7 @@
-#ifndef LSKUSE_AES_SBOXES_H
-#define LSKUSE_AES_SBOXES_H
+#ifndef SKUSEL_AES_SBOXES_H
+#define SKUSEL_AES_SBOXES_H
 
-namespace lskuse
+namespace skusel
 {
   /****************************************************************************
    * Tables derived from... 
@@ -48,4 +48,4 @@ namespace lskuse
     0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d }; // F
 }
 
-#endif // LSKUSE_AES_SBOXES_H
+#endif // SKUSEL_AES_SBOXES_H
