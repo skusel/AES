@@ -12,9 +12,17 @@ using namespace skusel;
  *****************************************************************************/
 
 /*************************************************************************************************/
-AESKeySchedule::AESKeySchedule(AES::KeyLen keyLen, const char* key) :
-  m_keyLen(keyLen)
+AESKeySchedule::AESKeySchedule(unsigned keyLenBytes, const char* key)
 {
+  if(keyLenBytes == LEN_128_IN_BYTES)
+    m_keyLen = KeyLen::LEN_128;
+  else if(keyLenBytes == LEN_192_IN_BYTES)
+    m_keyLen = KeyLen::LEN_192;
+  else if(keyLenBytes == LEN_256_IN_BYTES)
+    m_keyLen = KeyLen::LEN_256;
+  else
+    assert("In AESKeySchedule with invalid key length.");
+
   computeKeySchedule(key);
 }
 
@@ -34,11 +42,11 @@ unsigned AESKeySchedule::getNumRounds() const
 {
   switch(m_keyLen)
   {
-    case AES::KeyLen::LEN_128:
+    case KeyLen::LEN_128:
       return 10;
-    case AES::KeyLen::LEN_192:
+    case KeyLen::LEN_192:
       return 12;
-    case AES::KeyLen::LEN_256:
+    case KeyLen::LEN_256:
       return 14;
     default:
       return m_keySchedule.size() - 1;
@@ -57,9 +65,9 @@ uint8_t* AESKeySchedule::getRoundKey(unsigned round) const
 /*************************************************************************************************/
 void AESKeySchedule::computeKeySchedule(const char* key)
 {
-  if(m_keyLen == AES::KeyLen::LEN_128)
+  if(m_keyLen == KeyLen::LEN_128)
     compute128KeySchedule(key);
-  else if(m_keyLen == AES::KeyLen::LEN_192)
+  else if(m_keyLen == KeyLen::LEN_192)
     compute192KeySchedule(key);
   else
     compute256KeySchedule(key);

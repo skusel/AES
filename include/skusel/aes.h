@@ -15,13 +15,6 @@ namespace skusel
         std::string m_message = "Operation successful";
       };
 
-      enum class KeyLen
-      {
-        LEN_128,
-        LEN_192,
-        LEN_256
-      };
-
       enum class Mode
       {
         ECB,
@@ -34,23 +27,74 @@ namespace skusel
         // TODO: add other padding types here
       };
 
-      AES(Mode mode, KeyLen keyLen, Padding padding);
+      AES(Mode mode, Padding padding);
 
-      static Status encrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                            const std::filesystem::path& plaintextFile, const char* key, 
+      static Status encrypt(Mode mode, Padding padding, 
+                            const std::filesystem::path& plaintextFile, std::string_view key, 
                             const std::filesystem::path& ciphertextFile);
-      static Status decrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                            const std::filesystem::path& ciphertextFile, const char* key, 
+      static Status encrypt(Mode mode, Padding padding, 
+                            const std::filesystem::path& plaintextFile, 
+                            const std::array<char, 16>& key, 
+                            const std::filesystem::path& ciphertextFile);
+      static Status encrypt(Mode mode, Padding padding, 
+                            const std::filesystem::path& plaintextFile, 
+                            const std::array<char, 24>& key, 
+                            const std::filesystem::path& ciphertextFile);
+      static Status encrypt(Mode mode, Padding padding, 
+                            const std::filesystem::path& plaintextFile, 
+                            const std::array<char, 32>& key, 
+                            const std::filesystem::path& ciphertextFile);
+      
+      static Status decrypt(Mode mode, Padding padding, 
+                            const std::filesystem::path& ciphertextFile, std::string_view key, 
                             const std::filesystem::path& plaintextFile);
-
-      Status encrypt(const std::filesystem::path& plaintextFile, const char* key, 
+      static Status decrypt(Mode mode, Padding padding, 
+                            const std::filesystem::path& ciphertextFile,
+                            const std::array<char, 16>& key, 
+                            const std::filesystem::path& plaintextFile);
+      static Status decrypt(Mode mode, Padding padding, 
+                            const std::filesystem::path& ciphertextFile,
+                            const std::array<char, 24>& key, 
+                            const std::filesystem::path& plaintextFile);
+      static Status decrypt(Mode mode, Padding padding, 
+                            const std::filesystem::path& ciphertextFile,
+                            const std::array<char, 32>& key, 
+                            const std::filesystem::path& plaintextFile);
+      
+      Status encrypt(const std::filesystem::path& plaintextFile, std::string_view key, 
                      const std::filesystem::path& ciphertextFile);
-      Status decrypt(const std::filesystem::path& ciphertextFile, const char* key, 
+      Status encrypt(const std::filesystem::path& plaintextFile, 
+                     const std::array<char, 16>& key, 
+                     const std::filesystem::path& ciphertextFile);
+      Status encrypt(const std::filesystem::path& plaintextFile, 
+                     const std::array<char, 24>& key, 
+                     const std::filesystem::path& ciphertextFile);
+      Status encrypt(const std::filesystem::path& plaintextFile, 
+                     const std::array<char, 32>& key, 
+                     const std::filesystem::path& ciphertextFile);
+
+      Status decrypt(const std::filesystem::path& ciphertextFile, std::string_view key, 
+                     const std::filesystem::path& plaintextFile);
+      Status decrypt(const std::filesystem::path& ciphertextFile,
+                     const std::array<char, 16>& key, 
+                     const std::filesystem::path& plaintextFile);
+      Status decrypt(const std::filesystem::path& ciphertextFile,
+                     const std::array<char, 24>& key, 
+                     const std::filesystem::path& plaintextFile);
+      Status decrypt(const std::filesystem::path& ciphertextFile,
+                     const std::array<char, 32>& key, 
                      const std::filesystem::path& plaintextFile);
 
     private:
+      Status checkKeyLength(std::string_view key);
+      template<typename KeyType>
+      Status runEncrypt(const std::filesystem::path& plaintextFile, KeyType genericKey,
+                        const std::filesystem::path& ciphertextFile);
+      template<typename KeyType>
+      Status runDecrypt(const std::filesystem::path& ciphertextFile, KeyType genericKey,
+                        const std::filesystem::path& plaintextFile);
+
       Mode    m_mode;
-      KeyLen  m_keyLen;
       Padding m_padding;
       
       static constexpr const uint8_t RCON[10] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36};

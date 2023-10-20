@@ -10,7 +10,7 @@ namespace skusel
   class AESKeySchedule
   {
     public:
-      AESKeySchedule(AES::KeyLen keyLen, const char* key);
+      AESKeySchedule(unsigned keyLenBytes, const char* key);
       ~AESKeySchedule();
 
       unsigned getNumRounds() const;
@@ -25,6 +25,13 @@ namespace skusel
       void subWord(uint8_t* word);
       void rcon(uint8_t* word, unsigned round);
 
+      enum class KeyLen
+      {
+        LEN_128,
+        LEN_192,
+        LEN_256
+      };
+
       static constexpr const unsigned WORD_LEN = 4;
       static constexpr const unsigned ROUND_KEY_LEN = 16;
       static constexpr const unsigned LEN_128_IN_BYTES = 16;
@@ -37,7 +44,7 @@ namespace skusel
       static constexpr const unsigned LEN_192_TRANSFORMATIONS = LEN_192_WORD_ARRAY_SIZE / LEN_192_IN_BYTES - 1;
       static constexpr const unsigned LEN_256_TRANSFORMATIONS = LEN_256_WORD_ARRAY_SIZE / LEN_256_IN_BYTES - 1;
 
-      AES::KeyLen           m_keyLen;
+      KeyLen                m_keyLen;
       std::vector<uint8_t*> m_keySchedule;
 
       /************************************************************************

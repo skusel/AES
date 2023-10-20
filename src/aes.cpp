@@ -7,35 +7,184 @@
 using namespace skusel;
 
 /*************************************************************************************************/
-AES::AES(Mode mode, KeyLen keyLen, Padding padding) :
+AES::AES(Mode mode, Padding padding) :
   m_mode(mode), 
-  m_keyLen(keyLen), 
   m_padding(padding)
 {
 }
 
 /*************************************************************************************************/
-AES::Status AES::encrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                         const std::filesystem::path& plaintextFile, const char* key, 
+AES::Status AES::encrypt(Mode mode, Padding padding, 
+                         const std::filesystem::path& plaintextFile, std::string_view key, 
                          const std::filesystem::path& ciphertextFile)
 {
-  AES aes(mode, keyLen, padding);
+  AES aes(mode, padding);
   return aes.encrypt(plaintextFile, key, ciphertextFile);
 }
 
 /*************************************************************************************************/
-AES::Status AES::decrypt(Mode mode, KeyLen keyLen, Padding padding, 
-                         const std::filesystem::path& ciphertextFile, const char* key, 
+AES::Status AES::encrypt(Mode mode, Padding padding, 
+                         const std::filesystem::path& plaintextFile, 
+                         const std::array<char, 16>& key, 
+                         const std::filesystem::path& ciphertextFile)
+{
+  AES aes(mode, padding);
+  return aes.encrypt(plaintextFile, key, ciphertextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::encrypt(Mode mode, Padding padding, 
+                         const std::filesystem::path& plaintextFile, 
+                         const std::array<char, 24>& key, 
+                         const std::filesystem::path& ciphertextFile)
+{
+  AES aes(mode, padding);
+  return aes.encrypt(plaintextFile, key, ciphertextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::encrypt(Mode mode, Padding padding, 
+                         const std::filesystem::path& plaintextFile, 
+                         const std::array<char, 32>& key, 
+                         const std::filesystem::path& ciphertextFile)
+{
+  AES aes(mode, padding);
+  return aes.encrypt(plaintextFile, key, ciphertextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::decrypt(Mode mode, Padding padding, 
+                         const std::filesystem::path& ciphertextFile, std::string_view key, 
                          const std::filesystem::path& plaintextFile)
 {
-  AES aes(mode, keyLen, padding);
+  AES aes(mode, padding);
   return aes.decrypt(ciphertextFile, key, plaintextFile);
 }
 
 /*************************************************************************************************/
-AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const char* key, 
+AES::Status AES::decrypt(Mode mode, Padding padding, 
+                         const std::filesystem::path& ciphertextFile,
+                         const std::array<char, 16>& key, 
+                         const std::filesystem::path& plaintextFile)
+{
+  AES aes(mode, padding);
+  return aes.decrypt(ciphertextFile, key, plaintextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::decrypt(Mode mode, Padding padding, 
+                         const std::filesystem::path& ciphertextFile,
+                         const std::array<char, 24>& key, 
+                         const std::filesystem::path& plaintextFile)
+{
+  AES aes(mode, padding);
+  return aes.decrypt(ciphertextFile, key, plaintextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::decrypt(Mode mode, Padding padding, 
+                         const std::filesystem::path& ciphertextFile,
+                         const std::array<char, 32>& key, 
+                         const std::filesystem::path& plaintextFile)
+{
+  AES aes(mode, padding);
+  return aes.decrypt(ciphertextFile, key, plaintextFile);
+}
+      
+/*************************************************************************************************/
+AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, std::string_view key, 
                          const std::filesystem::path& ciphertextFile)
 {
+  auto status = checkKeyLength(key);
+  if(!status.m_success)
+    return status;
+  return runEncrypt(plaintextFile, key, ciphertextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, 
+                         const std::array<char, 16>& key, 
+                         const std::filesystem::path& ciphertextFile)
+{
+  return runEncrypt(plaintextFile, key, ciphertextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, 
+                         const std::array<char, 24>& key, 
+                         const std::filesystem::path& ciphertextFile)
+{
+  return runEncrypt(plaintextFile, key, ciphertextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, 
+                         const std::array<char, 32>& key, 
+                         const std::filesystem::path& ciphertextFile)
+{
+  return runEncrypt(plaintextFile, key, ciphertextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, std::string_view key, 
+                         const std::filesystem::path& plaintextFile)
+{
+  auto status = checkKeyLength(key);
+  if(!status.m_success)
+    return status;
+  return runDecrypt(ciphertextFile, key, plaintextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile,
+                         const std::array<char, 16>& key, 
+                         const std::filesystem::path& plaintextFile)
+{
+  return runDecrypt(ciphertextFile, key, plaintextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile,
+                         const std::array<char, 24>& key, 
+                         const std::filesystem::path& plaintextFile)
+{
+  return runDecrypt(ciphertextFile, key, plaintextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile,
+                         const std::array<char, 32>& key, 
+                         const std::filesystem::path& plaintextFile)
+{
+  return runDecrypt(ciphertextFile, key, plaintextFile);
+}
+
+/*************************************************************************************************/
+AES::Status AES::checkKeyLength(std::string_view key)
+{
+  AES::Status status;
+  if(key.length() != 16 && key.length() != 24 && key.length() != 32)
+  {
+    status.m_success = false;
+    status.m_message = "Key length must be 16, 24, or 32 characters.";
+  }
+  return status;
+}
+
+/*************************************************************************************************/
+template<typename KeyType>
+AES::Status AES::runEncrypt(const std::filesystem::path& plaintextFile, KeyType genericKey, 
+                            const std::filesystem::path& ciphertextFile)
+{
+  /****************************************************************************
+   * If we are in this function we have already verified the key length. Copy 
+   * it over to a common representation (i.e., char[]).
+   ***************************************************************************/
+  char key[genericKey.size()];
+  unsigned i = 0;
+  for(char c : genericKey)
+    key[i++] = c;
+
   Status status;
   
   if(ciphertextFile == plaintextFile)
@@ -77,7 +226,7 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const char*
     return status;
   }
 
-  AESKeySchedule keySchedule(m_keyLen, key);
+  AESKeySchedule keySchedule(genericKey.size(), key);
 
   switch(m_mode)
   {
@@ -104,8 +253,9 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, const char*
 }
 
 /*************************************************************************************************/
-AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, const char* key, 
-                         const std::filesystem::path& plaintextFile)
+template<typename KeyType>
+AES::Status AES::runDecrypt(const std::filesystem::path& ciphertextFile, KeyType genericKey, 
+                            const std::filesystem::path& plaintextFile)
 {
   Status status;
 
@@ -148,7 +298,11 @@ AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, const char
     return status;
   }
 
-  AESKeySchedule keySchedule(m_keyLen, key);
+  /****************************************************************************
+   * Key lengths should already be verified as 16, 24, or 32 bytes when
+   * AESKeySchedule is constructed.
+   ***************************************************************************/
+  AESKeySchedule keySchedule(genericKey.size(), genericKey.data());
   
   switch(m_mode)
   {

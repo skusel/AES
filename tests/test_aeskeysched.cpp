@@ -35,7 +35,7 @@ namespace skusel
       origKey[14] = 0x4f;
       origKey[15] = 0x3c;
 
-      AESKeySchedule keySched(AES::KeyLen::LEN_128, origKey);
+      AESKeySchedule keySched(16, origKey);
 
       // 0th round key
       uint8_t key0[16] = {0x2b, 0x7e, 0x15, 0x16,
@@ -143,7 +143,7 @@ namespace skusel
       origKey[22] = 0x6b;
       origKey[23] = 0x7b;
 
-      AESKeySchedule keySched(AES::KeyLen::LEN_192, origKey);
+      AESKeySchedule keySched(24, origKey);
 
       // 0th round key
       uint8_t key0[16] = {0x8e, 0x73, 0xb0, 0xf7,
@@ -273,7 +273,7 @@ namespace skusel
       origKey[30] = 0xdf;
       origKey[31] = 0xf4;
 
-      AESKeySchedule keySched(AES::KeyLen::LEN_256, origKey);
+      AESKeySchedule keySched(32, origKey);
 
       // 0th round key
       uint8_t key0[16] = {0x60, 0x3d, 0xeb, 0x10,

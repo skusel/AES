@@ -6,9 +6,9 @@ namespace skusel
 {
   /*********************************************************************************************/
   AESBlockTest::AESBlockTest() :
-    m_keySched128(AES::KeyLen::LEN_128, "DFhUR7md38I&54fz"),
-    m_keySched192(AES::KeyLen::LEN_192, "jf83*fhn#nfuDrR*JF3FeEr3"),
-    m_keySched256(AES::KeyLen::LEN_256, "H+1XrImy0acc&S|E=yHF5%MUm3-hP*MG")
+    m_keySched128(16, "DFhUR7md38I&54fz"),
+    m_keySched192(24, "jf83*fhn#nfuDrR*JF3FeEr3"),
+    m_keySched256(32, "H+1XrImy0acc&S|E=yHF5%MUm3-hP*MG")
   {
   }
 
