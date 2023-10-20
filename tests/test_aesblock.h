@@ -1,11 +1,11 @@
-#ifndef LSKUSE_AES_BLOCK_TEST_H
-#define LSKUSE_AES_BLOCK_TEST_H
+#ifndef SKUSEL_AES_BLOCK_TEST_H
+#define SKUSEL_AES_BLOCK_TEST_H
 
 #include "aeskeysched.h"
 
 #include <gtest/gtest.h>
 
-namespace lskuse
+namespace skusel
 {
   class AESBlockTest : public testing::Test
   {
@@ -21,4 +21,4 @@ namespace lskuse
   };
 }
 
-#endif // LSKUSE_AES_BLOCK_TEST_H
+#endif // SKUSEL_AES_BLOCK_TEST_H

@@ -7,15 +7,15 @@
       "description": "Debug build using the system's default generator",
       "binaryDir": "${sourceDir}/build/${presetName}", 
       "cacheVariables": {
-        "LSKUSE_AES_ASAN": {
+        "SKUSEL_AES_ASAN": {
           "type": "BOOL",
           "value": "ON"
         },
-        "LSKUSE_AES_USAN": {
+        "SKUSEL_AES_USAN": {
           "type": "BOOL",
           "value": "ON"
         },
-        "LSKUSE_AES_BUILD_TESTING": {
+        "SKUSEL_AES_BUILD_TESTING": {
           "type": "BOOL", 
           "value": "ON"
         }, 

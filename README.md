@@ -27,29 +27,29 @@ Example:
 ```
 include(FetchContent)
 FetchContent_Declare(
-  lskuse_aes
+  skusel_aes
   GIT_REPOSITORY https://github.com/skusel/AES.git
-  GIT_TAG v1.0
+  GIT_TAG v0.1.0
 )
-FetchContent_MakeAvailable(lskuse_aes)
+FetchContent_MakeAvailable(skusel_aes)
 add_executable(foo ...)
-target_link_libraries(foo PRIVATE lskuse_aes::lskuse_aes)
+target_link_libraries(foo PRIVATE skusel_aes::skusel_aes)
 ```
 
 You can also add this library as a sub-directory in your CMake project. A common way of doing this is to include this repository as a git submodule, but you can also download the source.
 
 Example:
 ```
-add_subdirectory(lskuse_aes)
+add_subdirectory(skusel_aes)
 add_executable(foo ...)
-target_link_libraries(foo PRIVATE lskuse_aes::lskuse_aes)
+target_link_libraries(foo PRIVATE skusel_aes::skusel_aes)
 ```
 
 ### Headers
 This project has 2 public headers. They can be included with:
 ```
-#include <lskuse/aes.h>
-#include <lskuse/aesversion.h>
+#include <skusel/aes.h>
+#include <skusel/aesversion.h>
 ```
 
 ## Using the library
@@ -57,7 +57,7 @@ The library provides a simple interface for users.
 
 All code in this section is written assuming
 ```
-using namespace lskuse;
+using namespace skusel;
 ```
 was declared earlier in the translation unit.
 
@@ -140,7 +140,7 @@ status.m_message; // reason for failure
 
 Obtaining the library version:
 ```
-std::cout << "Using lskuse_aes version: " 
+std::cout << "Using skusel_aes version: " 
           << LSKUSE_AES_VERSION_MAJOR << "."
           << LSKUSE_AES_VERSION_MINOR << std::endl;
 ```

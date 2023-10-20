@@ -1,11 +1,11 @@
-#ifndef LSKUSE_KEY_SCHEDULE_H
-#define LSKUSE_KEY_SCHEDULE_H
+#ifndef SKUSEL_KEY_SCHEDULE_H
+#define SKUSEL_KEY_SCHEDULE_H
 
-#include "lskuse/aes.h"
+#include "skusel/aes.h"
 
 #include <vector>
 
-namespace lskuse
+namespace skusel
 {
   class AESKeySchedule
   {
@@ -48,4 +48,4 @@ namespace lskuse
   };
 }
 
-#endif // LSKUSE_KEY_SCHEDULE_H
+#endif // SKUSEL_KEY_SCHEDULE_H
