@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 ###############################################################################
 # project description
 ###############################################################################
-project(skusel_aes VERSION 0.1.0)
+project(skusel_aes VERSION 0.2.0)
 
 ###############################################################################
 # project dev tools info
@@ -63,13 +63,13 @@ set(SKUSEL_AES_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
 ###############################################################################
 # fetch thirdparty dependencies
 ###############################################################################
-include(FetchContent)
-#set(FETCHCONTENT_QUIET ON)
-# Avoid warning about DOWNLOAD_EXTRACT_TIMESTAMP
-if(${CMAKE_VERSION} VERSION_EQUAL "3.24.0" OR ${CMAKE_VERSION} VERSION_GREATER "3.24.0")
-  cmake_policy(SET CMP0135 NEW)
-endif()
 if(SKUSEL_AES_BUILD_TESTING)
+  include(FetchContent)
+  #set(FETCHCONTENT_QUIET ON)
+  # Avoid warning about DOWNLOAD_EXTRACT_TIMESTAMP
+  if(${CMAKE_VERSION} VERSION_EQUAL "3.24.0" OR ${CMAKE_VERSION} VERSION_GREATER "3.24.0")
+    cmake_policy(SET CMP0135 NEW)
+  endif()
   FetchContent_Declare(
     googletest
     URL https://github.com/google/googletest/archive/f8d7d77c06936315286eb55f8de22cd23c188571.zip #v1.14.0
