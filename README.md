@@ -145,7 +145,7 @@ status = aes2.decrypt("/path/to/ciphertext/file",
                       "/path/to/output/plaintext/file");
 ```
 
-If you have a binary key, you can pass it via the `std::array` interface.
+If you have a binary key, you can pass it more easily via the `std::array` interface.
 ```
 // 8th index of array is the backspace character (0x08)
 // 10th index of the array is the null character (0x00)
