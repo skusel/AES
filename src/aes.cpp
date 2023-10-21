@@ -3,6 +3,7 @@
 #include "aeskeysched.h"
 
 #include <fstream>
+#include <iostream>
 
 using namespace skusel;
 
@@ -95,6 +96,7 @@ AES::Status AES::decrypt(Mode mode, Padding padding,
 AES::Status AES::encrypt(const std::filesystem::path& plaintextFile, std::string_view key, 
                          const std::filesystem::path& ciphertextFile)
 {
+  std::cout << "In std::string_view encrypt" << std::endl;
   auto status = checkKeyLength(key);
   if(!status.m_success)
     return status;
@@ -106,6 +108,7 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile,
                          const std::array<char, 16>& key, 
                          const std::filesystem::path& ciphertextFile)
 {
+  std::cout << "In std::array encrypt" << std::endl;
   return runEncrypt(plaintextFile, key, ciphertextFile);
 }
 
@@ -114,6 +117,7 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile,
                          const std::array<char, 24>& key, 
                          const std::filesystem::path& ciphertextFile)
 {
+  std::cout << "In std::array encrypt" << std::endl;
   return runEncrypt(plaintextFile, key, ciphertextFile);
 }
 
@@ -122,6 +126,7 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile,
                          const std::array<char, 32>& key, 
                          const std::filesystem::path& ciphertextFile)
 {
+  std::cout << "In std::array encrypt" << std::endl;
   return runEncrypt(plaintextFile, key, ciphertextFile);
 }
 
@@ -129,6 +134,7 @@ AES::Status AES::encrypt(const std::filesystem::path& plaintextFile,
 AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile, std::string_view key, 
                          const std::filesystem::path& plaintextFile)
 {
+  std::cout << "In std::string_view decrypt" << std::endl;
   auto status = checkKeyLength(key);
   if(!status.m_success)
     return status;
@@ -140,6 +146,7 @@ AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile,
                          const std::array<char, 16>& key, 
                          const std::filesystem::path& plaintextFile)
 {
+  std::cout << "In std::array decrypt" << std::endl;
   return runDecrypt(ciphertextFile, key, plaintextFile);
 }
 
@@ -148,6 +155,7 @@ AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile,
                          const std::array<char, 24>& key, 
                          const std::filesystem::path& plaintextFile)
 {
+  std::cout << "In std::array decrypt" << std::endl;
   return runDecrypt(ciphertextFile, key, plaintextFile);
 }
 
@@ -156,6 +164,7 @@ AES::Status AES::decrypt(const std::filesystem::path& ciphertextFile,
                          const std::array<char, 32>& key, 
                          const std::filesystem::path& plaintextFile)
 {
+  std::cout << "In std::array decrypt" << std::endl;
   return runDecrypt(ciphertextFile, key, plaintextFile);
 }
 

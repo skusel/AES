@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <iostream>
 
 using namespace skusel;
 
@@ -22,6 +23,8 @@ AESKeySchedule::AESKeySchedule(unsigned keyLenBytes, const char* key)
     m_keyLen = KeyLen::LEN_256;
   else
     assert("In AESKeySchedule with invalid key length.");
+
+  std::cout << "Key is: " << std::string_view(key, keyLenBytes) << std::endl;
 
   computeKeySchedule(key);
 }
